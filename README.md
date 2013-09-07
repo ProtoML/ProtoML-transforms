@@ -1,4 +1,4 @@
-protoML-transforms
+ProtoML-transforms
 ==================
 
-The transforms built for protoML.
+The transforms built for ProtoML.
