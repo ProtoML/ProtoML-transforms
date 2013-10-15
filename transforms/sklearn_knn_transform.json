@@ -1,0 +1,106 @@
+{
+	"template":"Scikit-Learn KNN Classifier",
+	"system params":
+	{
+		"module name":"sklearn.neighbors.KNeighborsClassifier",
+		"hyperparameters file":"",
+		"idatafmt":["csv"],
+		"idatax":"",
+		"idatay":"",
+		"imodelfmt":["pickle"],
+		"imodel":"",
+		"odatafmt":["csv"],
+		"odatax":"",
+		"odatay":"",
+		"omodelfmt":["pickle"],
+		"omodel":"",
+		"mode":["generator", "executor"]
+	}
+	"hyperparameters":
+	{
+		"n_neighbors":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"5"
+		}
+		"weights":
+		{
+			"type":"string",
+			"constraints":["uniform","distance"],
+			"default":"uniform"
+		}
+		"algorithm":
+		{
+			"type":"string",
+			"constraints":["ball_tree","kd_tree","brute","auto"],
+			"default":"auto"
+		}
+		"leaf_size":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"30"
+		}
+		"metric":
+		{
+			"type":"string",
+			"constraints":["minkowski"],
+			"default":"minkowski"
+		}
+		"p":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"2"
+		}
+	}
+
+	"inputs":
+	{
+		"idatax":["csv"],
+		"idatay":["csv"],
+		"imodel":["pickle"]
+	}
+	"outputs":
+	{
+		"odatax":["csv"],
+		"odatay":["csv"],
+		"omodel":["pickle"]
+	}
+	"descriptions":
+	{
+		"idatax":"Input Training Data Features",
+		"idatay":"Input Training Data Labels",
+		"odatax":"Output Transformed Data Features",
+		"odatay":"Output Predicted Labels",
+		"imodel":"Serialized Pre-trained Model Input for Warm-Start",
+		"omodel":"Serialized Trained Model Output by Generator"
+	}
+	"transform functions":
+	{
+		"Simple Generator":
+		{
+			"system params":
+			{
+				"odatafmt":[],
+				"odatax":"None",
+				"odatay":"None",
+				"mode":"generator"
+			}
+			"description":"Generates a serialized KNN model from training data and labels"
+		}
+		"Simple Executor":
+		{
+			"system params":
+			{
+				"omodelfmt":[],
+				"omodel":"None",
+				"odatax":"None",
+				"idatay":"None",
+				"mode":"executor"
+			}
+			"description":"Generates labels from a serialized model input and testing data"
+		}
+	}
+}
