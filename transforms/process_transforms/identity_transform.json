@@ -1,0 +1,45 @@
+{
+	"template" : "Identity Transform",
+	"_comment": "absolute path, will be filled in when deployed",
+	"path" : "",
+	"types" : {
+		"_comment" : "Use asterisk as a wildcard"
+		"Exclusive Input Types" : [
+			"*"
+			],
+		"Additional Input Types" : [
+			"*"
+		"Exclusive Output Types" : [
+			"*"
+			],
+		"Additional Output Types" : [
+			"*"
+			],
+		"_comment": "Unclear on the difference between Exclusive and Additional..."
+	},
+	"executor" : "identity_transform.py",
+	"exec_flags" : [
+	{
+		"param" : "--input_file",
+		"default" : "",
+		"description" : "File to read from"
+	},
+	{
+		"param" : "--output_file",
+		"default" : "",
+		"description" : "File to write to"
+	}
+	],
+	"_comment" : "Constraints and information on the parameters, primarily the data formats for each one and what outputs Persist should look for"
+	"params" : {
+		"data_formats" : {
+			"--input_file" : ["csv","tsv","pickle"],
+			"--output_file" : ["csv","tsv","pickle"]
+		}
+		"outputs" : {
+			"--output_file" : ""
+		}
+	}
+
+
+	

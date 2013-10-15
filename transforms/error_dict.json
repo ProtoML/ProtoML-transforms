@@ -1,0 +1,17 @@
+{
+	"CouldNotOpenSystemParams":"1",
+	"CouldNotParseSystemParams":"2",
+	"CouldNotOpenHyperParams":"3",
+	"CouldNotParseHyperParams":"4",
+	"IncorrectPackage":"5",
+	"CouldNotOpenData":"6",
+	"CouldNotWriteData":"7",
+	"CouldNotOpenModelFile":"8",
+	"CouldNotParseModelFile":"9",
+	"CouldNotWriteModelFile":"10",
+	"UnsupportedModelFormat":"11",
+	"BadHyperParams":"12",
+	"BadModelFormat":"13",
+	"BadDataFormat":"14",
+	"InvalidExecutor":"15"
+}
