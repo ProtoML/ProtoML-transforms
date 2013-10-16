@@ -1,0 +1,41 @@
+{
+	"module name":"sklearn.neighbors.KNeighborsClassifier",
+	"hyperparameters":
+	{
+		"n_neighbors":
+		{
+			"value":"5",
+			"type":"int"
+		},
+		"weights":
+		{
+			"value":"uniform",
+			"type":"string"
+		},
+		"algorithm":
+		{
+			"value":"auto",
+			"type":"string"
+		},
+		"leaf_size":
+		{
+			"value":"30",
+			"type":"int"
+		},
+		"p":
+		{
+			"value":"2",
+			"type":"int"
+		}
+	},
+	"idatafmt":"csv",
+	"idatax":"test_datasetx.csv",
+	"idatay":"test_datasety.csv",
+	"imodelfmt":"",
+	"imodel":"",
+	"omodelfmt":"pickle",
+	"omodel":"test1out.pkl",
+	"mode":"generator"
+}
+
+
