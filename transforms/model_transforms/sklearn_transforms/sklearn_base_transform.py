@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import json
 import cPickle as pickle
 import sys, os
@@ -24,7 +24,7 @@ class sklearn_transform_base:
 	def __init__(self, params_file_s):
 		""" Initializes the transform. Only takes a relative path to a JSON file that contains all of the system parameters """
 		try:
-			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML'])
+			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_BASE'])
 		except KeyError:
 			print >> sys.stderr, "FATAL: PROTOML Environment variable not set"
 			sys.exit(-1)

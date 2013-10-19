@@ -1,0 +1,28 @@
+{
+	"template" : "Identity Transform",
+	"execution context" : "transforms/process_transforms/base_transform.py",
+	"system params":
+	{
+		"input data":"",
+		"output data":""
+	},
+	"descriptions":
+	{
+		"input data":"Data to process",
+		"output data":"Processed data"
+	}
+	"inputs":
+	{
+		"input data":""
+	},
+	"outputs":
+	{
+		"output data":""
+	}
+	"transform functions":
+	{
+		"Identity":{}
+	}
+}
+
+	

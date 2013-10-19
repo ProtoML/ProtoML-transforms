@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 # Takes in a datafile, and puts it into the output file. Can handle multiple formats.
 # This is the base for a process transform -- it reads the file, reads the parameters, calls 'process', then writes the result
@@ -11,7 +11,7 @@ class process_transform_base:
 	#TODO: Better way to get error dict in here
 	def __init__(self, params_file_s):	
 		try:
-			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML'])
+			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_BASE'])
 		except KeyError:
 			print >> sys.stderr, "FATAL: PROTOML Environment variable not set"
 			sys.exit(-1)
@@ -50,7 +50,7 @@ class process_transform_base:
 		
 	def process_data(self):
 		""" Main meat of it, does something with self.idata and puts the result in self.odata. Base version just copies """
-		self.odata = self.odata
+		self.odata = self.idata
 
 	def write_data(self):
 		""" Writes output. Base version just writes it as a string """
