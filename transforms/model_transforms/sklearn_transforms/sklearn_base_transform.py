@@ -11,11 +11,15 @@ def map_types(params):
 	type_map = {
 			'int':int,
 			'float':float,
-			'string':str
+			'string':str,
+			'bool':bool
 	}
 	newparams = dict()
 
 	for p in params:
+		if params[p]['value'] == "":
+			newparams[p] = None
+			continue
 		newparams[p] = type_map[params[p]['type']](params[p]['value'])
 
 	return newparams
