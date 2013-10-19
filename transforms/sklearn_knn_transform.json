@@ -1,5 +1,6 @@
 {
 	"template":"Scikit-Learn KNN Classifier",
+	"execution context":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"system params":
 	{
 		"module name":"sklearn.neighbors.KNeighborsClassifier",
