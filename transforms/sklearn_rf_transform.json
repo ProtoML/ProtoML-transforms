@@ -1,59 +1,91 @@
 {
-	"template":"Scikit-Learn KNN Classifier",
+	"template":"Scikit-Learn Random Forest Classifier Transform",
 	"execution context":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"system params":
 	{
-		"module name":"sklearn.neighbors.KNeighborsClassifier",
+		"module name":"sklearn.ensemble.RandomForestClassifier",
 		"hyperparameters":
 		{
-			"n_neighbors":
+			"n_estimators":
 			{
 				"type":"int",
-				"constraints":"",
-				"default":"5"
+				"default":"10",
+				"constraints":""
 			},
-			"weights":
+			"criterion":
 			{
 				"type":"string",
-				"constraints":["uniform","distance"],
-				"default":"uniform"
+				"default":"gini",
+				"constraints":["gini","entropy"]
 			},
-			"algorithm":
+			"max_features":
 			{
-				"type":"string",
-				"constraints":["ball_tree","kd_tree","brute","auto"],
-				"default":"auto"
+				"type":["int","real","string"],
+				"default":"auto",
+				"constraints":
+				{
+					"int":"",
+					"real":"[0,1]",
+					"string":["auto","sqrt","log2",""]
+				}
 			},
-			"leaf_size":
+			"max_depth":
 			{
 				"type":"int",
-				"constraints":"",
-				"default":"30"
+				"default":"",
+				"constraints":""
 			},
-			"metric":
-			{
-				"type":"string",
-				"constraints":["minkowski"],
-				"default":"minkowski"
-			},
-			"p":
+			"min_samples_split":
 			{
 				"type":"int",
-				"constraints":"",
-				"default":"2"
+				"default":"2",
+				"constraints":""
+			},
+			"min_samples_leaf":
+			{
+				"type":"int",
+				"default":"1",
+				"constraints":""
+			},
+			"bootstrap":
+			{
+				"type":"bool",
+				"default":"1",
+				"constraints":""
+			},
+			"oob_score":
+			{
+				"type":"bool",
+				"default":"0",
+				"constraints":""
+			},
+			"n_jobs":
+			{
+				"type":"int",
+				"default":"1",
+				"constraints":["-1","[1,$NCPU]"]
+			},
+			"random_state":
+			{
+				"type":"int",
+				"default":"",
+				"constraints":""
+			},
+			"verbose":
+			{
+				"type":"int",
+				"default":"0",
+				"constraints":""
 			}
-		}
+		},
 		"idatafmt":["csv"],
 		"idatax":"",
 		"idatay":"",
 		"imodelfmt":["pickle"],
 		"imodel":"",
-		"odatafmt":["csv"],
-		"odatax":"",
-		"odatay":"",
 		"omodelfmt":["pickle"],
 		"omodel":"",
-		"mode":["generator", "executor"]
+		"mode":["generator","executor"]
 	},
 	"inputs":
 	{
@@ -87,7 +119,7 @@
 				"odatay":"None",
 				"mode":"generator"
 			}
-			"description":"Generates a serialized KNN model from training data and labels"
+			"description":"Generates a serialized random forest from training data and labels"
 		},
 		"Simple Executor":
 		{
@@ -101,5 +133,7 @@
 			}
 			"description":"Generates labels from a serialized model input and testing data"
 		}
-	}
+	}		
 }
+
+
