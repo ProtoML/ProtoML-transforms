@@ -3,7 +3,45 @@
 	"system params":
 	{
 		"module name":"sklearn.neighbors.KNeighborsClassifier",
-		"hyperparameters file":"",
+		"hyperparameters":
+		{
+			"n_neighbors":
+			{
+				"type":"int",
+				"constraints":"",
+				"default":"5"
+			}
+			"weights":
+			{
+				"type":"string",
+				"constraints":["uniform","distance"],
+				"default":"uniform"
+			}
+			"algorithm":
+			{
+				"type":"string",
+				"constraints":["ball_tree","kd_tree","brute","auto"],
+				"default":"auto"
+			}
+			"leaf_size":
+			{
+				"type":"int",
+				"constraints":"",
+				"default":"30"
+			}
+			"metric":
+			{
+				"type":"string",
+				"constraints":["minkowski"],
+				"default":"minkowski"
+			}
+			"p":
+			{
+				"type":"int",
+				"constraints":"",
+				"default":"2"
+			}
+		}
 		"idatafmt":["csv"],
 		"idatax":"",
 		"idatay":"",
@@ -16,46 +54,6 @@
 		"omodel":"",
 		"mode":["generator", "executor"]
 	}
-	"hyperparameters":
-	{
-		"n_neighbors":
-		{
-			"type":"int",
-			"constraints":"",
-			"default":"5"
-		}
-		"weights":
-		{
-			"type":"string",
-			"constraints":["uniform","distance"],
-			"default":"uniform"
-		}
-		"algorithm":
-		{
-			"type":"string",
-			"constraints":["ball_tree","kd_tree","brute","auto"],
-			"default":"auto"
-		}
-		"leaf_size":
-		{
-			"type":"int",
-			"constraints":"",
-			"default":"30"
-		}
-		"metric":
-		{
-			"type":"string",
-			"constraints":["minkowski"],
-			"default":"minkowski"
-		}
-		"p":
-		{
-			"type":"int",
-			"constraints":"",
-			"default":"2"
-		}
-	}
-
 	"inputs":
 	{
 		"idatax":["csv"],

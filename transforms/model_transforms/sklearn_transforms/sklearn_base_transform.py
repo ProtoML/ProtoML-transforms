@@ -3,8 +3,22 @@ import json
 import cPickle as pickle
 import sys, os
 import numpy as np
-#from optparse import OptParse
+import importlib
 
+# TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
+def map_types(params):
+	""" Takes a dict of params in the form i:{'value':'val','type':type} and maps them to i:value according to type """
+	type_map = {
+			'int':int,
+			'float':float,
+			'string':str
+	}
+	newparams = dict()
+
+	for p in params:
+		newparams[p] = type_map[params[p]['type']](params[p]['value'])
+
+	return newparams
 
 class sklearn_transform_base:
 	def __init__(self, params_file_s):
@@ -30,32 +44,36 @@ class sklearn_transform_base:
 			sys.exit(self.error_dict['CouldNotParseSystemParams'])
 
 		params_file.close()
+		self.module_name = str(self.params['module name'])
 
-		relative_name = self.params['module name'].split('.')[-1] # Final module name, e.g. AffinityPropagation or KMeans
+		relative_name = self.module_name.split('.')[-1] # Final module name, e.g. AffinityPropagation or KMeans
 
 		# Importing
 		try:
-			__import__(self.params['module name'])
+			mods = __import__(str('.'.join(self.module_name.split('.')[:-1])), globals(), locals(), [relative_name], -1)
 		except ImportError as ime:
 			print >> sys.stderr, "Could not import %s:" % self.params['module name'], ime
-			sys.exit(error_dict['IncorrectPackage'])
+			sys.exit(self.error_dict['IncorrectPackage'])
 
-		self.model_module = sys.modules[self.params['module name']]
+		self.model_module = getattr(mods, relative_name)
 
 	def read_hyperparams(self):
 		""" Reads the input files based on their formats """
+		# TODO: Decide if we're putting hyperparams in the json parameters or as a different file
+		"""
 		try:
 			self.hyperparams_file = open(self.params['hyperparameters file'],'r')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open hyper parameters", ioe
 			sys.exit(self.error_dict['CouldNotOpenHyperParameters'])
-
+		
 		try:
-			self.hyperparams = json.load(self.hyperparams_file)
+			self.hyperparams = map_types(json.load(self.hyperparams_file))
 		except ValueError as vae:
 			print >> sys.stderr, "Could not decode hyperparameters:", vae
 			sys.exit(self.error_dict['CouldNotParseHyperParams'])
-
+		"""
+		self.hyperparams = map_types(self.params['hyperparameters'])
 	def read_data(self):
 		""" Reads input data file """
 		# We need to take the data and turn it into a numpy array
@@ -64,38 +82,39 @@ class sklearn_transform_base:
 		idatay_filen = self.params['idatay']
 		if dataformat == 'csv':
 			try:
-				self.idatax = np.loadtxt(idatax_filen,delimiter=',')
-				if idatay_filen != None:
-					self.idatay = np.loadtxt(idatay_filen,delimiter=',')
+				#TODO: set dtype from parameters
+				self.idatax = np.loadtxt(idatax_filen,delimiter=',',dtype='float32')
+				if idatay_filen != '':
+					self.idatay = np.loadtxt(idatay_filen,delimiter=',',dtype='float32')
 				else:
 					self.idatay = None
 			except IOError as ioe:
 				# I would expand the error handling here to handle each case if it makes sense to do so -- but if this is not the error handling approach we're taking I won't put time into it.
 				print >> sys.stderr, "Could not open dataset file:", ioe
-				sys.exit(error_dict['CouldNotOpenData'])
+				sys.exit(self.error_dict['CouldNotOpenData'])
 
 
 	def load_model(self):
 		""" Loads the model from the imodel field """
 		model_filen = self.params['imodel']
-		if model_filen == None:
+		if model_filen == '':
 			return False
 		modelfmt = self.params['imodelfmt']
 		try:
 			imodelfile = open(model_filen, 'r')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open model file:", ioe
-			sys.exit(error_dict['CouldNotOpenModelFile'])
+			sys.exit(self.error_dict['CouldNotOpenModelFile'])
 
 		if modelfmt == 'pickle':
 			try:
 				self.imodel = pickle.load(imodelfile)
 			except pickle.UnpicklingError as upe:
 				print >> sys.stderr, "Problem unpickling:", upe
-				sys.exit(error_dict['CouldNotParseModelFile'])
+				sys.exit(self.error_dict['CouldNotParseModelFile'])
 		else:
 			print >> sys.stderr, "Unsupported model input format"
-			sys.exit(error_dict['UnsupportedModelFormat'])
+			sys.exit(self.error_dict['UnsupportedModelFormat'])
 
 		return True
 	
@@ -107,49 +126,51 @@ class sklearn_transform_base:
 				self.imodel.set_params(**self.hyperparams)
 			except TypeError as tpe:
 				print >> sys.stderr, "Wrong hyper parameters", tpe
-				sys.exit(error_dict['BadHyperParams'])
+				sys.exit(self.error_dict['BadHyperParams'])
 		else:
 			try:
-				self.imodel = self.model_module(**params)
+				self.imodel = self.model_module(**self.hyperparams)
 			except TypeError as tpe:
 				print >> sys.stderr, "Wrong hyper parameters", tpe
-				sys.exit(error_dict['BadHyperParams'])
+				sys.exit(self.error_dict['BadHyperParams'])
 
 		# TODO: Integrate kwargs for fit functions
-		if self.idatay != None: # Supervised
+		if self.idatay != '': # Supervised
 			self.imodel.fit(self.idatax, self.idatay)
 		else: #Unsupervised
 			self.imodel.fit(self.idatax)
+
+		self.omodel = self.imodel
 			
 	def executor(self):
 		""" Handle executor transform """
 		if not self.load_model():
 			print >> sys.stderr, "Executor cannot create a model, please supply one."
-			sys.exit(error_dict['InvalidExecutor'])
+			sys.exit(self.error_dict['InvalidExecutor'])
 
 		self.odatay = self.imodel.predict(self.idatax)
 	
 	def write_model(self):
 		""" Write the serialized model if one was generated """
 		omodel_filen = self.params['omodel']
-		if omodel_filen == None:
+		if omodel_filen == '':
 			return False
 		modelfmt = self.params['omodelfmt']
 		try:
 			omodelfile = open(omodel_filen, 'w')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open model file for writing:", ioe
-			sys.exit(error_dict['CouldNotOpenModelFile'])
+			sys.exit(self.error_dict['CouldNotOpenModelFile'])
 
 		if modelfmt == 'pickle':
 			try:
 				pickle.dump(self.omodel, omodelfile)
 			except pickle.PicklingError as pke:
 				print >> sys.stderr, "Could not pickle the model", pke
-				sys.exit(error_dict['CouldNotWriteModelFile'])
+				sys.exit(self.error_dict['CouldNotWriteModelFile'])
 		else:
 			print >> sys.stderr, "Unsupported model output format"
-			sys.exit(error_dict['BadModelFormat'])
+			sys.exit(self.error_dict['BadModelFormat'])
 
 	def write_data(self):
 		""" Write the predictions, transformed data (if there is any) """
@@ -158,23 +179,23 @@ class sklearn_transform_base:
 		odatay_filen = self.params['odatay']
 
 		if dataformat == 'csv':
-			if odatax_filen != None:
+			if odatax_filen != '':
 				try:
 					# Note that while 
 					np.savetxt(odatax_filen, self.odatax, delimiter=',')
 				except IOError as ioe:
 					print >> sys.stderr, "Could not save transformed data file:", ioe
-					sys.exit(error_dict['CouldNotWriteData'])	
-			if odatay_filen != None:
+					sys.exit(self.error_dict['CouldNotWriteData'])	
+			if odatay_filen != '':
 				try:
 					np.savetxt(odatay_filen, self.odatay, delimiter=',')
 				except IOError as ioe:
 					print >> sys.stderr, "Could not save labels file:", ioe
-					sys.exit(error_dict['CouldNotWriteData'])
+					sys.exit(self.error_dict['CouldNotWriteData'])
 
 		else:
 			print >> sys.stderr, "Unsupported data output format"
-			sys.exit(error_dict['BadDataFormat'])
+			sys.exit(self.error_dict['BadDataFormat'])
 
 	def cleanup(self):
 		""" Primarily just close up whatever files were used """
@@ -198,6 +219,6 @@ if __name__ == "__main__":
 	""" This is how this supposed to be run """
 	params_file = sys.argv[1]
 	transform = sklearn_transform_base(params_file)
-	sklearn_transform_base.run()
+	transform.run()
 
 
