@@ -81,29 +81,45 @@ class sklearn_transform_base:
 	def read_data(self):
 		""" Reads input data file """
 		# We need to take the data and turn it into a numpy array
-		dataformat = self.params['idatafmt']
-		idatax_filen = self.params['idatax']
-		idatay_filen = self.params['idatay']
-		if dataformat == 'csv':
+		dataformatx = self.params['inputs']['datax']['fmt']
+		idatax_filen = self.params['inputs']['datax']['file']
+		dataformaty = self.params['inputs']['datay']['fmt']
+		idatay_filen = self.params['inputs']['datay']['file']
+		if idatay_filen == None:
+			self.idata = None
+		if dataformatx == 'csv':
 			try:
-				#TODO: set dtype from parameters
-				self.idatax = np.loadtxt(idatax_filen,delimiter=',',dtype='float32')
-				if idatay_filen != '':
-					self.idatay = np.loadtxt(idatay_filen,delimiter=',',dtype='float32')
-				else:
-					self.idatay = None
+				#TODO: set dtype from parameters (perhaps inputs/data/type)
+				self.idatax = np.loadtxt(idatax_filen,delimiter=',')
 			except IOError as ioe:
 				# I would expand the error handling here to handle each case if it makes sense to do so -- but if this is not the error handling approach we're taking I won't put time into it.
 				print >> sys.stderr, "Could not open dataset file:", ioe
 				sys.exit(self.error_dict['CouldNotOpenData'])
+		
+		else if dataformatx != None:
+			print >> sys.stderr, "Unsupported data output format"
+			sys.exit(self.error_dict['BadDataFormat'])
+
+
+		if dataformaty == 'csv':
+			try:
+				self.idatay = np.loadtxt(idatay_filen,delimiter=',')
+			except IOError as ioe:
+				print >> sys.stderr, "Could not open dataset file:", ioe
+				sys.exit(self.error_dict['CouldNotOpenData'])
+
+		else if dataformaty != None:
+			print >> sys.stderr, "Unsupported data output format"
+			sys.exit(self.error_dict['BadDataFormat'])
+
 
 
 	def load_model(self):
 		""" Loads the model from the imodel field """
-		model_filen = self.params['imodel']
+		model_filen = self.params['inputs']['model']['file']
+		modelfmt = self.params['inputs']['model']['fmt']
 		if model_filen == '':
 			return False
-		modelfmt = self.params['imodelfmt']
 		try:
 			imodelfile = open(model_filen, 'r')
 		except IOError as ioe:
@@ -116,7 +132,7 @@ class sklearn_transform_base:
 			except pickle.UnpicklingError as upe:
 				print >> sys.stderr, "Problem unpickling:", upe
 				sys.exit(self.error_dict['CouldNotParseModelFile'])
-		else:
+		else if modelfmt != None:
 			print >> sys.stderr, "Unsupported model input format"
 			sys.exit(self.error_dict['UnsupportedModelFormat'])
 
@@ -139,7 +155,7 @@ class sklearn_transform_base:
 				sys.exit(self.error_dict['BadHyperParams'])
 
 		# TODO: Integrate kwargs for fit functions
-		if self.idatay != '': # Supervised
+		if self.idatay != None: # Supervised
 			self.imodel.fit(self.idatax, self.idatay)
 		else: #Unsupervised
 			self.imodel.fit(self.idatax)
@@ -156,10 +172,10 @@ class sklearn_transform_base:
 	
 	def write_model(self):
 		""" Write the serialized model if one was generated """
-		omodel_filen = self.params['omodel']
-		if omodel_filen == '':
+		omodel_filen = self.params['outputs']['model']['file']
+		modelfmt = self.params['outputs']['model'['fmt']
+		if omodel_filen == None:
 			return False
-		modelfmt = self.params['omodelfmt']
 		try:
 			omodelfile = open(omodel_filen, 'w')
 		except IOError as ioe:
@@ -172,32 +188,37 @@ class sklearn_transform_base:
 			except pickle.PicklingError as pke:
 				print >> sys.stderr, "Could not pickle the model", pke
 				sys.exit(self.error_dict['CouldNotWriteModelFile'])
-		else:
+		else if modelfmt != None:
 			print >> sys.stderr, "Unsupported model output format"
 			sys.exit(self.error_dict['BadModelFormat'])
 
 	def write_data(self):
 		""" Write the predictions, transformed data (if there is any) """
-		dataformat = self.params['odatafmt']
-		odatax_filen = self.params['odatax']
-		odatay_filen = self.params['odatay']
+		dataformatx = self.params['outputs']['datax']['fmt']
+		odatax_filen = self.params['outputs']['datax']['file']
+		dataformaty = self.params['outputs']['datay']['fmt']
+		odatay_filen = self.params['outputs']['datay']['file']
 
-		if dataformat == 'csv':
-			if odatax_filen != '':
-				try:
-					# Note that while 
-					np.savetxt(odatax_filen, self.odatax, delimiter=',')
-				except IOError as ioe:
-					print >> sys.stderr, "Could not save transformed data file:", ioe
-					sys.exit(self.error_dict['CouldNotWriteData'])	
-			if odatay_filen != '':
-				try:
-					np.savetxt(odatay_filen, self.odatay, delimiter=',')
-				except IOError as ioe:
-					print >> sys.stderr, "Could not save labels file:", ioe
-					sys.exit(self.error_dict['CouldNotWriteData'])
+		if dataformatx == 'csv':
+			try:
+				np.savetxt(odatax_filen, self.odatax, delimiter=',')
+			except IOError as ioe:
+				print >> sys.stderr, "Could not save transformed data file:", ioe
+				sys.exit(self.error_dict['CouldNotWriteData'])	
+		
+		else if dataformatx != None:
+			print >> sys.stderr, "Unsupported data output format"
+			sys.exit(self.error_dict['BadDataFormat'])
 
-		else:
+
+		if dataformaty == 'csv':
+			try:
+				np.savetxt(odatay_filen, self.odatay, delimiter=',')
+			except IOError as ioe:
+				print >> sys.stderr, "Could not save labels file:", ioe
+				sys.exit(self.error_dict['CouldNotWriteData'])
+
+		else if dataformaty != None:
 			print >> sys.stderr, "Unsupported data output format"
 			sys.exit(self.error_dict['BadDataFormat'])
 

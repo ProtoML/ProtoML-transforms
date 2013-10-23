@@ -1,5 +1,6 @@
 {
 	"module name":"sklearn.neighbors.KNeighborsClassifier",
+	"mode":"executor",
 	"hyperparameters":
 	{
 		"n_neighbors":
@@ -28,15 +29,40 @@
 			"type":"int"
 		}
 	},
-	"idatafmt":"csv",
-	"idatax":"test_datasetx.csv",
-	"idatay":"",
-	"odatafmt":"csv",
-	"odatax":"",
-	"odatay":"test_outputy.csv",
-	"imodelfmt":"pickle",
-	"imodel":"test1out.pkl",
-	"omodelfmt":"",
-	"omodel":"",
-	"mode":"executor"
+	"inputs":
+	{
+		"datax":
+		{
+			"fmt":"csv",
+			"file":"test_datasetx.csv"
+		},
+		"datay":
+		{
+			"fmt":"",
+			"file":""
+		},
+		"model":
+		{
+			"fmt":"pickle",
+			"file":"test_modelknn.pkl"
+		}
+	},
+	"outputs":
+	{
+		"datax":
+		{
+			"fmt":"",
+			"file":""
+		},
+		"datay":
+		{
+			"fmt":"csv",
+			"file":"test_datasety_out.csv"
+		},
+		"model":
+		{
+			"fmt":"",
+			"file":""
+		}
+	}
 }
