@@ -1,6 +1,9 @@
 {
-	"module name":"sklearn.neighbors.KNeighborsClassifier",
-	"mode":"generator",
+	"params":
+	{
+		"module name":"sklearn.neighbors.KNeighborsClassifier",
+		"mode":"generator"
+	},
 	"hyperparameters":
 	{
 		"n_neighbors":
