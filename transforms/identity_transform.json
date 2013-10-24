@@ -1,31 +1,31 @@
 {
-	"template" : "Identity Transform",
+	"name" : "Identity Transform",
 	"execution context" : "transforms/process_transforms/base_transform.py",
-	"system params":
+	"dependencies":
 	{
-		"inputs":
+	},
+	"params":
+	{
+	},
+	"inputs":
+	{
+		"data":
 		{
-			"data":
-			{
-				"fmt":[[]],
-				"file":[]
-			}
-		},
-		"outputs":
-		{
-			"data":
-			{
-				"fmt":[[]],
-				"file":[]
-			}
+			"fmt":[],
+			"file":[],
+			"description":"Data to process"
 		}
 	},
-	"descriptions":
+	"outputs":
 	{
-		"input data":"Data to process",
-		"output data":"Processed data"
-	}	
-	"transform functions":
+		"data":
+		{
+			"fmt":[],
+			"file":[],
+			"description":"Processed data"
+		}
+	},	
+	"functions":
 	{
 		"Identity":{}
 	}

@@ -1,198 +1,202 @@
 {
-	"template":"Scikit-Learn SGD Classifier Transform",
+	"name":"Scikit-Learn SGD Classifier Transform",
 	"execution context":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
-	"system_params":
+	"dependencies":
+	{
+		"scikit-learn":
+		{
+			"language":"python"
+		}
+	},
+	"params":
 	{
 		"module name":"sklearn.linear_model.SGDClassifier",
-		"mode":["generator","executor"],
-		"hyperparameters":
-		{
-			"loss":
-			{
-				"type":"string",
-				"default":"hinge",
-				"constraints":["log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]
-			},
-			"penalty":
-			{
-				"type":"string",
-				"default":"l2",
-				"constraints":["l2","l1","elasticnet"]
-			},
-			"alpha":
-			{
-				"type":"real",
-				"default":"0.0001",
-				"constraints":""
-			},
-			"l1_ratio":
-			{
-				"type":"real",
-				"default":"0.15",
-				"constraints":["[0,1]"]
-			},
-			"fit_intercept":
-			{
-				"type":"bool",
-				"default":"1",
-				"constraints":""
-			},
-			"n_iter":
-			{
-				"type":"int",
-				"default":"5",
-				"constraints":""
-			},
-			"shuffle":
-			{
-				"type":"bool",
-				"default":"0",
-				"constraints":""
-			},
-			"random_state":
-			{
-				"type":"int",
-				"default":"",
-				"constraints":""
-			},
-			"epsilon":
-			{
-				"type":"real",
-				"default":"0.1",
-				"constraints":["loss":["huber","epsilon_insensitive","squared_epsilon_insensitive"]],
-				"_comment":"Example of dependent constraints: will check to ensure that loss' value is in there"
-			},
-			"n_jobs":
-			{
-				"type":"int",
-				"default":"1",
-				"constraints":["-1","[1,$NCPU]"]
-			},
-			"learning_rate":
-			{
-				"type":"string",
-				"default":"optimal",
-				"constraints":["constant","optimal","invscaling"]
-			},
-			"eta0":
-			{
-				"type":"real",
-				"default":"0.01",
-				"constraints":""
-			},
-			"power_t":
-			{
-				"type":"real",
-				"default":"0.5",
-				"constraints":""
-			},
-			"class_weight":
-			{
-				"type":"string"
-				"default":"",
-				"constraints":["","auto"]
-			},
-			"warm_start":
-			{
-				"type":"bool"
-				"default":"0",
-				"constraints":["0"]
-			}
-		},
-		"inputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		},
-		"outputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		}	
+		"mode":["generator","executor"]
 	},
-	"descriptions":
+	"hyperparameters":
 	{
-		"inputs/datax":"Input Training Data Features",
-		"inputs/datay":"Input Training Data Labels",
-		"outputs/datax":"Output Transformed Data Features",
-		"outputs/datay":"Output Predicted Labels",
-		"inputs/model":"Serialized Pre-trained Model Input for Warm-Start",
-		"outputs/model":"Serialized Trained Model Output by Generator"
+		"loss":
+		{
+			"type":"string",
+			"default":"hinge",
+			"constraints":["log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]
+		},
+		"penalty":
+		{
+			"type":"string",
+			"default":"l2",
+			"constraints":["l2","l1","elasticnet"]
+		},
+		"alpha":
+		{
+			"type":"real",
+			"default":"0.0001",
+			"constraints":""
+		},
+		"l1_ratio":
+		{
+			"type":"real",
+			"default":"0.15",
+			"constraints":["[0,1]"]
+		},
+		"fit_intercept":
+		{
+			"type":"bool",
+			"default":"1",
+			"constraints":""
+		},
+		"n_iter":
+		{
+			"type":"int",
+			"default":"5",
+			"constraints":""
+		},
+		"shuffle":
+		{
+			"type":"bool",
+			"default":"0",
+			"constraints":""
+		},
+		"random_state":
+		{
+			"type":"int",
+			"default":"",
+			"constraints":""
+		},
+		"epsilon":
+		{
+			"type":"real",
+			"default":"0.1",
+			"constraints":[["=","loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]],
+			"_comment":"Example of dependent constraints: will check to ensure that loss' value is in there"
+		},
+		"n_jobs":
+		{
+			"type":"int",
+			"default":"1",
+			"constraints":["-1",["[]","1","$NCPU"]]
+		},
+		"learning_rate":
+		{
+			"type":"string",
+			"default":"optimal",
+			"constraints":["constant","optimal","invscaling"]
+		},
+		"eta0":
+		{
+			"type":"real",
+			"default":"0.01",
+			"constraints":""
+		},
+		"power_t":
+		{
+			"type":"real",
+			"default":"0.5",
+			"constraints":""
+		},
+		"class_weight":
+		{
+			"type":"string",
+			"default":"",
+			"constraints":["","auto"]
+		},
+		"warm_start":
+		{
+			"type":"bool",
+			"default":"0",
+			"constraints":"0"
+		}
 	},
-	"transform functions":
+	"inputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Pre-trained Model Input for Warm-Start"
+		}
+	},
+	"outputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Transformed Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Predicted Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Trained Model Output by Generator"
+		}
+	},	
+	"functions":
 	{
 		"Simple Generator":
 		{
-			"system params":
+			"params":
 			{
-				"outputs":
-				{
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
-				},
 				"mode":"generator"
+			},
+			"outputs":
+			{
+				"datax":
+				{
+					"fmt":[""],
+					"file":[""]
+				},
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
+				}
 			},
 			"description":"Generates a serialized KNN model from training data and labels"
 		},
 		"Simple Executor":
 		{
-			"system params":
+			"params":
 			{
-				"mode":"executor",
-				"outputs":
+				"mode":"executor"
+			},
+			"outputs":
+			{
+				"model":
 				{
-					"model":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
 				},
-				"inputs":
+				"datax":
 				{
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
+				}
+			},
+			"inputs":
+			{
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
 				}
 			},
 			"description":"Generates labels from a serialized model input and testing data"

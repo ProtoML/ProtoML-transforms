@@ -1,143 +1,147 @@
 {
-	"template":"Scikit-Learn KNN Classifier",
+	"name":"Scikit-Learn KNN Classifier",
 	"execution context":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
-	"system params":
+	"dependencies":
+	{
+		"scikit-learn":
+		{
+			"language":"python"
+		}
+	},
+	"params":
 	{
 		"module name":"sklearn.neighbors.KNeighborsClassifier",
-		"mode":["generator", "executor"],
-		"hyperparameters":
-		{
-			"n_neighbors":
-			{
-				"type":"int",
-				"constraints":"",
-				"default":"5"
-			},
-			"weights":
-			{
-				"type":"string",
-				"constraints":["uniform","distance"],
-				"default":"uniform"
-			},
-			"algorithm":
-			{
-				"type":"string",
-				"constraints":["ball_tree","kd_tree","brute","auto"],
-				"default":"auto"
-			},
-			"leaf_size":
-			{
-				"type":"int",
-				"constraints":"",
-				"default":"30"
-			},
-			"metric":
-			{
-				"type":"string",
-				"constraints":["minkowski"],
-				"default":"minkowski"
-			},
-			"p":
-			{
-				"type":"int",
-				"constraints":"",
-				"default":"2"
-			}
-		}
-		"inputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		},
-		"outputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		}	
+		"mode":["generator", "executor"]
 	},
-	"descriptions":
+	"hyperparameters":
 	{
-		"inputs/datax":"Input Training Data Features",
-		"inputs/datay":"Input Training Data Labels",
-		"outputs/datax":"Output Transformed Data Features",
-		"outputs/datay":"Output Predicted Labels",
-		"inputs/model":"Serialized Pre-trained Model Input for Warm-Start",
-		"outputs/model":"Serialized Trained Model Output by Generator"
+		"n_neighbors":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"5"
+		},
+		"weights":
+		{
+			"type":"string",
+			"constraints":["uniform","distance"],
+			"default":"uniform"
+		},
+		"algorithm":
+		{
+			"type":"string",
+			"constraints":["ball_tree","kd_tree","brute","auto"],
+			"default":"auto"
+		},
+		"leaf_size":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"30"
+		},
+		"metric":
+		{
+			"type":"string",
+			"constraints":["minkowski"],
+			"default":"minkowski"
+		},
+		"p":
+		{
+			"type":"int",
+			"constraints":"",
+			"default":"2"
+		}
 	},
-	"transform functions":
+	"inputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Pre-trained Model Input for Warm-Start"
+		}
+	},
+	"outputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Transformed Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Predicted Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Trained Model Output by Generator"
+		}
+	},	
+	"functions":
 	{
 		"Simple Generator":
 		{
-			"system params":
+			"params":
 			{
-				"outputs":
-				{
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
-				},
 				"mode":"generator"
+			},
+			"outputs":
+			{
+				"datax":
+				{
+					"fmt":[""],
+					"file":[""]
+				},
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
+				}
 			},
 			"description":"Generates a serialized KNN model from training data and labels"
 		},
 		"Simple Executor":
 		{
-			"system params":
+			"params":
 			{
-				"mode":"executor",
-				"outputs":
+				"mode":"executor"
+			},
+			"outputs":
+			{
+				"model":
 				{
-					"model":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
 				},
-				"inputs":
+				"datax":
 				{
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
+				}
+			},
+			"inputs":
+			{
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
 				}
 			},
 			"description":"Generates labels from a serialized model input and testing data"
