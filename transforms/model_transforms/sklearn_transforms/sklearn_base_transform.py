@@ -20,6 +20,15 @@ def map_types(params):
 		if params[p]['value'] == "":
 			newparams[p] = None
 			continue
+		if type(params[p]['type']) == list:
+			for opt in params[p]['type']:
+				#Quick hack. Order your possible types in most-constrained to least constrained
+				try:
+					newparams[p] = type_map[opt](params[p]['value'])
+				except ValueError:
+					continue
+				break
+			continue
 		newparams[p] = type_map[params[p]['type']](params[p]['value'])
 
 	return newparams

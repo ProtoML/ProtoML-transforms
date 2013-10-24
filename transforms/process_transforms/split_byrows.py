@@ -4,7 +4,7 @@ import json
 import sys
 import os
 from base_transform import process_transform_base
-
+ 
 class split_rowwise(process_transform_base):
 	def read_data(self):
 		infmt = self.params['inputs']['data']['fmt']
