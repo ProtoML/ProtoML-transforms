@@ -10,7 +10,7 @@
 	},
 	"PrimaryParameters":
 	{
-		"module name":"sklearn.neighbors.KNeighborsClassifier",
+		"module name":["sklearn.neighbors.KNeighborsClassifier"],
 		"mode":["generator", "executor"]
 	},
 	"PrimaryHyperParameters":
@@ -24,13 +24,13 @@
 		"weights":
 		{
 			"Type":"string",
-			"Constraints":["uniform","distance"],
+			"Constraints":[["=","weights","uniform","distance"]],
 			"Default":"uniform"
 		},
 		"algorithm":
 		{
 			"Type":"string",
-			"Constraints":["ball_tree","kd_tree","brute","auto"],
+			"Constraints":[["=","algorithm","ball_tree","kd_tree","brute","auto"]],
 			"Default":"auto"
 		},
 		"leaf_size":
@@ -42,7 +42,7 @@
 		"metric":
 		{
 			"Type":"string",
-			"Constraints":["minkowski"],
+			"Constraints":["=","metric","minkowski"],
 			"Default":"minkowski"
 		},
 		"p":
@@ -106,7 +106,7 @@
 		{
 			"Parameters":
 			{
-				"mode":"generator"
+				"mode":["generator"]
 			},
 			"Outputs":
 			{
@@ -127,7 +127,7 @@
 		{
 			"Parameters":
 			{
-				"mode":"executor"
+				"mode":["executor"]
 			},
 			"Outputs":
 			{

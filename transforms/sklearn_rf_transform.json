@@ -10,7 +10,7 @@
 	},
 	"PrimaryParameters":
 	{
-		"module name":"sklearn.ensemble.RandomForestClassifier",
+		"module name":["sklearn.ensemble.RandomForestClassifier"],
 		"mode":["generator","executor"]
 	},
 	"PrimaryHyperParameters":
@@ -31,12 +31,7 @@
 		{
 			"Type":["int","real","string"],
 			"Default":"auto",
-			"Constraints":
-			{
-				"int":"",
-				"real":"[0,1]",
-				"string":["auto","sqrt","log2",""]
-			}
+			"Constraints":[[":int","=","max_features",""],[":real","[]","0","1"],[":string","=","max_features","auto","sqrt","log2",""]]
 		},
 		"max_depth":
 		{
@@ -72,7 +67,7 @@
 		{
 			"Type":"int",
 			"Default":"1",
-			"Constraints":["-1",["[]","1","$NCPU"]]
+			"Constraints":[["=","n_jobs","-1"],["[]","1","$NCPU"]]
 		},
 		"random_state":
 		{
@@ -141,7 +136,7 @@
 		{
 			"Parameters":
 			{
-				"mode":"generator"
+				"mode":["generator"]
 			},
 			"Outputs":
 			{
@@ -162,7 +157,7 @@
 		{
 			"Parameters":
 			{
-				"mode":"executor"
+				"mode":["executor"]
 			},
 			"Outputs":
 			{

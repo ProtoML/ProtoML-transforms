@@ -10,7 +10,7 @@
 	},
 	"PrimaryParameters":
 	{
-		"module name":"sklearn.linear_model.SGDClassifier",
+		"module name":["sklearn.linear_model.SGDClassifier"],
 		"mode":["generator","executor"]
 	},
 	"PrimaryHyperParameters":
@@ -19,13 +19,13 @@
 		{
 			"Type":"string",
 			"Default":"hinge",
-			"Constraints":["log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]
+			"Constraints":[["=","loss","log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]]
 		},
 		"penalty":
 		{
 			"Type":"string",
 			"Default":"l2",
-			"Constraints":["l2","l1","elasticnet"]
+			"Constraints":[["=","penalty","l2","l1","elasticnet"]]
 		},
 		"alpha":
 		{
@@ -74,13 +74,13 @@
 		{
 			"Type":"int",
 			"Default":"1",
-			"Constraints":["-1",["[]","1","$NCPU"]]
+			"Constraints":[["=","n_jobs","-1"],["[]","1","$NCPU"]]
 		},
 		"learning_rate":
 		{
 			"Type":"string",
 			"Default":"optimal",
-			"Constraints":["constant","optimal","invscaling"]
+			"Constraints":[["=","learning_rate","constant","optimal","invscaling"]]
 		},
 		"eta0":
 		{
@@ -98,13 +98,13 @@
 		{
 			"Type":"string",
 			"Default":"",
-			"Constraints":["","auto"]
+			"Constraints":[["=","class_weight","","auto"]]
 		},
 		"warm_start":
 		{
 			"Type":"bool",
 			"Default":"0",
-			"Constraints":"0"
+			"Constraints":["=","warm_start","0"]
 		}
 	},
 	"PrimaryInputs":
@@ -112,14 +112,14 @@
 		"datax":
 		{
 			"Format":["csv"],
-			"file":"",
-			"description":"Input Training Data Features"
+			"Path":"",
+			"Description":"Input Training Data Features"
 		},
 		"datay":
 		{
 			"Format":["csv"],
-			"file":"",
-			"description":"Input Training Data Labels"
+			"Path":"",
+			"Description":"Input Training Data Labels"
 		}	
 	},
 	"PrimaryOutputs":
@@ -161,7 +161,7 @@
 		{
 			"Params":
 			{
-				"mode":"generator"
+				"mode":["generator"]
 			},
 			"Outputs":
 			{
@@ -182,7 +182,7 @@
 		{
 			"Parameters":
 			{
-				"mode":"executor"
+				"mode":["executor"]
 			},
 			"Outputs":
 			{
