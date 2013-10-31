@@ -20,19 +20,19 @@ class process_transform_base:
 		newparams = dict()
 
 		for p in params:
-			if params[p]['value'] == "":
+			if params[p]['Value'] == "":
 				newparams[p] = None
 				continue
-			if type(params[p]['type']) == list:
-				for opt in params[p]['type']:
+			if type(params[p]['Type']) == list:
+				for opt in params[p]['Type']:
 					#Quick hack. Order your possible types in most-constrained to least constrained
 					try:
-						newparams[p] = type_map[opt](params[p]['value'])
+						newparams[p] = type_map[opt](params[p]['Value'])
 					except ValueError:
 						continue
 					break
 				continue
-			newparams[p] = type_map[params[p]['type']](params[p]['value'])
+			newparams[p] = type_map[params[p]['Type']](params[p]['Value'])
 
 		return newparams
 
@@ -40,7 +40,7 @@ class process_transform_base:
 	#TODO: Better way to get error dict in here
 	def __init__(self, params_file_s):	
 		try:
-			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_BASE'])
+			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_DIR'])
 		except KeyError:
 			print >> sys.stderr, "FATAL: PROTOML Environment variable not set"
 			sys.exit(-1)
@@ -61,18 +61,18 @@ class process_transform_base:
 
 		params_file.close()
 		try:
-			self.idata_file = open(self.params['input']['data'], 'r')
+			self.idata_file = open(self.params['Inputs']['data'], 'r')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open input file", ioe
 			sys.exit(self.error_dict['CouldNotOpenData'])
 		
 		try:
-			self.odata_file = open(self.params['output']['data'], 'w')
+			self.odata_file = open(self.params['Outputs']['data'], 'w')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open output file", ioe
 			sys.exit(self.error_dict['CouldNotWriteData'])
 
-		self.params['params'] = map_types(self.params['params'])
+		self.params['Parameters'] = map_types(self.params['Parameters'])
 
 
 	def read_data(self):	

@@ -1,43 +1,43 @@
 {
-	"params":
+	"Parameters":
 	{
 		"module name":"sklearn.neighbors.KNeighborsClassifier",
 		"mode":"executor"
 	},
-	"hyperparameters":
+	"HyperParameters":
 	{
 		"n_neighbors":
 		{
-			"value":"5",
-			"type":"int"
+			"Value":"5",
+			"PrimitiveType":"int"
 		},
 		"weights":
 		{
-			"value":"uniform",
-			"type":"string"
+			"Value":"uniform",
+			"PrimitiveType":"string"
 		},
 		"algorithm":
 		{
-			"value":"auto",
-			"type":"string"
+			"Value":"auto",
+			"PrimitiveType":"string"
 		},
 		"leaf_size":
 		{
-			"value":"30",
-			"type":"int"
+			"Value":"30",
+			"PrimitiveType":"int"
 		},
 		"p":
 		{
-			"value":"2",
-			"type":"int"
+			"Value":"2",
+			"PrimitiveType":"int"
 		}
 	},
-	"inputs":
+	"Inputs":
 	{
 		"datax":
 		{
-			"fmt":"csv",
-			"file":"test_datasetx.csv"
+			"Format":"csv",
+			"Path":"test_datasetx.csv"
 		},
 		"datay":
 		{

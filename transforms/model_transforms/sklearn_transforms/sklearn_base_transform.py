@@ -17,19 +17,19 @@ def map_types(params):
 	newparams = dict()
 
 	for p in params:
-		if params[p]['value'] == "":
+		if params[p]['Value'] == "":
 			newparams[p] = None
 			continue
-		if type(params[p]['type']) == list:
-			for opt in params[p]['type']:
+		if type(params[p]['Type']) == list:
+			for opt in params[p]['Type']:
 				#Quick hack. Order your possible types in most-constrained to least constrained
 				try:
-					newparams[p] = type_map[opt](params[p]['value'])
+					newparams[p] = type_map[opt](params[p]['Value'])
 				except ValueError:
 					continue
 				break
 			continue
-		newparams[p] = type_map[params[p]['type']](params[p]['value'])
+		newparams[p] = type_map[params[p]['Type']](params[p]['Value'])
 
 	return newparams
 
@@ -37,7 +37,7 @@ class sklearn_transform_base:
 	def __init__(self, params_file_s):
 		""" Initializes the transform. Only takes a relative path to a JSON file that contains all of the system parameters """
 		try:
-			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_BASE'])
+			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_DIR'])
 		except KeyError:
 			print >> sys.stderr, "FATAL: PROTOML Environment variable not set"
 			sys.exit(-1)
@@ -57,7 +57,7 @@ class sklearn_transform_base:
 			sys.exit(self.error_dict['CouldNotParseSystemParams'])
 
 		params_file.close()
-		self.module_name = str(self.params['params']['module name'])
+		self.module_name = str(self.params['Parameters']['module name'])
 
 		relative_name = self.module_name.split('.')[-1] # Final module name, e.g. AffinityPropagation or KMeans
 
@@ -65,7 +65,7 @@ class sklearn_transform_base:
 		try:
 			mods = __import__(str('.'.join(self.module_name.split('.')[:-1])), globals(), locals(), [relative_name], -1)
 		except ImportError as ime:
-			print >> sys.stderr, "Could not import %s:" % self.params['params']['module name'], ime
+			print >> sys.stderr, "Could not import %s:" % self.params['Parameters']['module name'], ime
 			sys.exit(self.error_dict['IncorrectPackage'])
 
 		self.model_module = getattr(mods, relative_name)
@@ -86,14 +86,14 @@ class sklearn_transform_base:
 			print >> sys.stderr, "Could not decode hyperparameters:", vae
 			sys.exit(self.error_dict['CouldNotParseHyperParams'])
 		"""
-		self.hyperparams = map_types(self.params['hyperparameters'])
+		self.hyperparams = map_types(self.params['HyperParameters'])
 	def read_data(self):
 		""" Reads input data file """
 		# We need to take the data and turn it into a numpy array
-		dataformatx = self.params['inputs']['datax']['fmt']
-		idatax_filen = self.params['inputs']['datax']['file']
-		dataformaty = self.params['inputs']['datay']['fmt']
-		idatay_filen = self.params['inputs']['datay']['file']
+		dataformatx = self.params['Inputs']['datax']['Format']
+		idatax_filen = self.params['Inputs']['datax']['Path']
+		dataformaty = self.params['Inputs']['datay']['Format']
+		idatay_filen = self.params['Inputs']['datay']['Path']
 		if idatay_filen == None:
 			self.idata = None
 		if dataformatx == 'csv':
@@ -125,8 +125,8 @@ class sklearn_transform_base:
 
 	def load_model(self):
 		""" Loads the model from the imodel field """
-		model_filen = self.params['inputs']['model']['file']
-		modelfmt = self.params['inputs']['model']['fmt']
+		model_filen = self.params['Inputs']['model']['Path']
+		modelfmt = self.params['Inputs']['model']['Format']
 		if model_filen == '':
 			return False
 		try:
@@ -181,8 +181,8 @@ class sklearn_transform_base:
 	
 	def write_model(self):
 		""" Write the serialized model if one was generated """
-		omodel_filen = self.params['outputs']['model']['file']
-		modelfmt = self.params['outputs']['model'['fmt']
+		omodel_filen = self.params['Outputs']['model']['Path']
+		modelfmt = self.params['Outputs']['model'['Format']
 		if omodel_filen == None:
 			return False
 		try:
@@ -203,10 +203,10 @@ class sklearn_transform_base:
 
 	def write_data(self):
 		""" Write the predictions, transformed data (if there is any) """
-		dataformatx = self.params['outputs']['datax']['fmt']
-		odatax_filen = self.params['outputs']['datax']['file']
-		dataformaty = self.params['outputs']['datay']['fmt']
-		odatay_filen = self.params['outputs']['datay']['file']
+		dataformatx = self.params['Outputs']['datax']['Format']
+		odatax_filen = self.params['Outputs']['datax']['Path']
+		dataformaty = self.params['Outputs']['datay']['Format']
+		odatay_filen = self.params['Outputs']['datay']['Path']
 
 		if dataformatx == 'csv':
 			try:
@@ -240,10 +240,10 @@ class sklearn_transform_base:
 	def run(self):
 		self.read_hyperparams()
 		self.read_data()
-		if self.params['params']['mode'] == 'executor':
+		if self.params['Parameters']['mode'] == 'executor':
 			self.executor()
 			self.write_data()
-		elif self.params['params']['mode'] == 'generator':
+		elif self.params['Parameters']['mode'] == 'generator':
 			self.generator()
 			self.write_model()
 		self.cleanup()
