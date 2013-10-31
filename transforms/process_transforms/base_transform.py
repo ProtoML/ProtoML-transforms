@@ -6,6 +6,7 @@
 import json
 import os
 import sys
+import shutil
 
 class process_transform_base:
 	# TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
@@ -69,16 +70,16 @@ class process_transform_base:
 
 
 	def read_data(self):	
-		""" Reads input. Base version just reads it to a string """
-		self.idata = self.idata_file.read()
+		""" Reads input. Base version just stores file"""
+		self.idata = self.idata_file
 		
 	def process_data(self):
 		""" Main meat of it, does something with self.idata and puts the result in self.odata. Base version just copies """
 		self.odata = self.idata
 
 	def write_data(self):
-		""" Writes output. Base version just writes it as a string """
-		self.odata_file.write(self.odata)
+		""" Writes output. Base version just copies the input file """
+		shutil.copyfileobj(self.odata,self.odata_file)
 
 	def cleanup(self):
 		""" Primarily just close up whatever files were used """

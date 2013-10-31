@@ -1,40 +1,25 @@
 {
-	"Template" : "Identity Transform",
+	"Name": "Identity Transform",
+	"Documentation": "A transform to represent a generic identity function",
 	"PrimaryExec" : "transforms/process_transforms/base_transform.py",
-	"Dependencies":
-	{
-	},
-	"PrimaryParameters":
-	{
-	},
-	"PrimaryInputs":
-	{
-		"data":
-		{
+	"Dependencies":	[],
+	"PrimaryInputs": {
+		"data":	{
+			"ValidTypes":["*"],
 			"Format":[],
-			"Path":[],
 			"Description":"Data to process"
 		}
 	},
-	"PrimaryOutputs":
-	{
-		"data":
-		{
+	"PrimaryOutputs": {
+		"data":	{
+			"ValidTypes":["*"],
 			"Format":[],
-			"Path":[],
 			"Description":"Processed data"
 		}
 	},	
-	"PrimaryInputStates":
-	{
-	},
-	"PrimaryOutputStates":
-	{
-	},
-	"Functions":
-	{
-		"Identity":
-		{
+	"Functions": {
+		"Identity":	{
+			"Description": "Identity data takes data in any format and returns same data"
 		}
 	}
 }
