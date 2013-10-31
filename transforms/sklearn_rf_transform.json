@@ -1,6 +1,6 @@
 {
 	"Template":"Scikit-Learn Random Forest Classifier Transform",
-	"PrimaryExec":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
+	"PrimaryExec":"ProtoML-transforms/transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"Dependencies":
 	{
 		"scikit-learn":
