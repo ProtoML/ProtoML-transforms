@@ -16,10 +16,10 @@ class split_rowwise(process_transform_base):
 				self.fmt = 'np'
 			except IOError as ioe:
 				print >> sys.stderr, "Could not read data:", ioe
-				sys.exit(self.error_dict['CouldNotOpenData'])
+				sys.exit(-1)
 		else:
 			print >> sys.stderr, "Unsupported format / No data"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 	def process_data(self):
 		if self.params['HyperParameters']['split']['Value'] == 'random':
@@ -47,17 +47,17 @@ class split_rowwise(process_transform_base):
 				np.savetxt(ofile1, self.odata1, delimiter=',')
 			except IOError as ioe:
 				print >> sys.stderr, "Could not write data"
-				sys.exit(self.error_dict['CouldNotWriteData'])
+				sys.exit(-1)
 		if ofmt2 == 'csv':
 			try:
 				np.savetxt(ofile2, self.odata2, delimiter=',')
 			except IOError as ioe:
 				print >> sys.stderr, "Could not write data"
-				sys.exit(self.error_dict['CouldNotWriteData'])
+				sys.exit(-1)
 
 		else:
 			print >> sys.stderr, "Unsupported format / No data"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 
 

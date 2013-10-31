@@ -37,24 +37,17 @@ class sklearn_transform_base:
 	def __init__(self, params_file_s):
 		""" Initializes the transform. Only takes a relative path to a JSON file that contains all of the system parameters """
 		try:
-			edfile = open('%s/transforms/error_dict.json' % os.environ['PROTOML_DIR'])
-		except KeyError:
-			print >> sys.stderr, "FATAL: PROTOML Environment variable not set"
-			sys.exit(-1)
-		self.error_dict = json.load(edfile)
-		edfile.close()
-		try:
 			params_file = open(params_file_s, 'r')
 		except IOError as ioe:
 			# Not sure if I should raise an error or exit -- feel free to suggest which
 			print >> sys.stderr, "Could not open system parameters", ioe
-			sys.exit(self.error_dict['CouldNotOpenSystemParams'])
+			sys.exit(-1)
 
 		try:
 			self.params = json.load(params_file)
 		except ValueError as vae:
 			print >> sys.stderr, "Could not decode parameters:", vae
-			sys.exit(self.error_dict['CouldNotParseSystemParams'])
+			sys.exit(-1)
 
 		params_file.close()
 		self.module_name = str(self.params['Parameters']['module name'])
@@ -66,7 +59,7 @@ class sklearn_transform_base:
 			mods = __import__(str('.'.join(self.module_name.split('.')[:-1])), globals(), locals(), [relative_name], -1)
 		except ImportError as ime:
 			print >> sys.stderr, "Could not import %s:" % self.params['Parameters']['module name'], ime
-			sys.exit(self.error_dict['IncorrectPackage'])
+			sys.exit(-1)
 
 		self.model_module = getattr(mods, relative_name)
 
@@ -78,13 +71,13 @@ class sklearn_transform_base:
 			self.hyperparams_file = open(self.params['hyperparameters file'],'r')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open hyper parameters", ioe
-			sys.exit(self.error_dict['CouldNotOpenHyperParameters'])
+			sys.exit(-1)
 		
 		try:
 			self.hyperparams = map_types(json.load(self.hyperparams_file))
 		except ValueError as vae:
 			print >> sys.stderr, "Could not decode hyperparameters:", vae
-			sys.exit(self.error_dict['CouldNotParseHyperParams'])
+			sys.exit(-1)
 		"""
 		self.hyperparams = map_types(self.params['HyperParameters'])
 	def read_data(self):
@@ -103,11 +96,11 @@ class sklearn_transform_base:
 			except IOError as ioe:
 				# I would expand the error handling here to handle each case if it makes sense to do so -- but if this is not the error handling approach we're taking I won't put time into it.
 				print >> sys.stderr, "Could not open dataset file:", ioe
-				sys.exit(self.error_dict['CouldNotOpenData'])
+				sys.exit(-1)
 		
 		else if dataformatx != None:
 			print >> sys.stderr, "Unsupported data output format"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 
 		if dataformaty == 'csv':
@@ -115,11 +108,11 @@ class sklearn_transform_base:
 				self.idatay = np.loadtxt(idatay_filen,delimiter=',')
 			except IOError as ioe:
 				print >> sys.stderr, "Could not open dataset file:", ioe
-				sys.exit(self.error_dict['CouldNotOpenData'])
+				sys.exit(-1)
 
 		else if dataformaty != None:
 			print >> sys.stderr, "Unsupported data output format"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 
 
@@ -133,17 +126,17 @@ class sklearn_transform_base:
 			imodelfile = open(model_filen, 'r')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open model file:", ioe
-			sys.exit(self.error_dict['CouldNotOpenModelFile'])
+			sys.exit(-1)
 
 		if modelfmt == 'pickle':
 			try:
 				self.imodel = pickle.load(imodelfile)
 			except pickle.UnpicklingError as upe:
 				print >> sys.stderr, "Problem unpickling:", upe
-				sys.exit(self.error_dict['CouldNotParseModelFile'])
+				sys.exit(-1)
 		else if modelfmt != None:
 			print >> sys.stderr, "Unsupported model input format"
-			sys.exit(self.error_dict['UnsupportedModelFormat'])
+			sys.exit(-1)
 
 		return True
 	
@@ -155,13 +148,13 @@ class sklearn_transform_base:
 				self.imodel.set_params(**self.hyperparams)
 			except TypeError as tpe:
 				print >> sys.stderr, "Wrong hyper parameters", tpe
-				sys.exit(self.error_dict['BadHyperParams'])
+				sys.exit(-1)
 		else:
 			try:
 				self.imodel = self.model_module(**self.hyperparams)
 			except TypeError as tpe:
 				print >> sys.stderr, "Wrong hyper parameters", tpe
-				sys.exit(self.error_dict['BadHyperParams'])
+				sys.exit(-1)
 
 		# TODO: Integrate kwargs for fit functions
 		if self.idatay != None: # Supervised
@@ -175,7 +168,7 @@ class sklearn_transform_base:
 		""" Handle executor transform """
 		if not self.load_model():
 			print >> sys.stderr, "Executor cannot create a model, please supply one."
-			sys.exit(self.error_dict['InvalidExecutor'])
+			sys.exit(-1)
 
 		self.odatay = self.imodel.predict(self.idatax)
 	
@@ -189,17 +182,17 @@ class sklearn_transform_base:
 			omodelfile = open(omodel_filen, 'w')
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open model file for writing:", ioe
-			sys.exit(self.error_dict['CouldNotOpenModelFile'])
+			sys.exit(-1)
 
 		if modelfmt == 'pickle':
 			try:
 				pickle.dump(self.omodel, omodelfile)
 			except pickle.PicklingError as pke:
 				print >> sys.stderr, "Could not pickle the model", pke
-				sys.exit(self.error_dict['CouldNotWriteModelFile'])
+				sys.exit(-1)
 		else if modelfmt != None:
 			print >> sys.stderr, "Unsupported model output format"
-			sys.exit(self.error_dict['BadModelFormat'])
+			sys.exit(-1)
 
 	def write_data(self):
 		""" Write the predictions, transformed data (if there is any) """
@@ -213,11 +206,11 @@ class sklearn_transform_base:
 				np.savetxt(odatax_filen, self.odatax, delimiter=',')
 			except IOError as ioe:
 				print >> sys.stderr, "Could not save transformed data file:", ioe
-				sys.exit(self.error_dict['CouldNotWriteData'])	
+				sys.exit(-1)	
 		
 		else if dataformatx != None:
 			print >> sys.stderr, "Unsupported data output format"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 
 		if dataformaty == 'csv':
@@ -225,11 +218,11 @@ class sklearn_transform_base:
 				np.savetxt(odatay_filen, self.odatay, delimiter=',')
 			except IOError as ioe:
 				print >> sys.stderr, "Could not save labels file:", ioe
-				sys.exit(self.error_dict['CouldNotWriteData'])
+				sys.exit(-1)
 
 		else if dataformaty != None:
 			print >> sys.stderr, "Unsupported data output format"
-			sys.exit(self.error_dict['BadDataFormat'])
+			sys.exit(-1)
 
 	def cleanup(self):
 		""" Primarily just close up whatever files were used """
