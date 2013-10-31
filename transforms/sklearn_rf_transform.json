@@ -1,178 +1,182 @@
 {
-	"template":"Scikit-Learn Random Forest Classifier Transform",
+	"name":"Scikit-Learn Random Forest Classifier Transform",
 	"execution context":"transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
-	"system params":
+	"dependencies":
+	{
+		"scikit-learn":
+		{
+			"language":"python"
+		}
+	},
+	"params":
 	{
 		"module name":"sklearn.ensemble.RandomForestClassifier",
-		"mode":["generator","executor"],
-		"hyperparameters":
-		{
-			"n_estimators":
-			{
-				"type":"int",
-				"default":"10",
-				"constraints":""
-			},
-			"criterion":
-			{
-				"type":"string",
-				"default":"gini",
-				"constraints":["gini","entropy"]
-			},
-			"max_features":
-			{
-				"type":["int","real","string"],
-				"default":"auto",
-				"constraints":
-				{
-					"int":"",
-					"real":"[0,1]",
-					"string":["auto","sqrt","log2",""]
-				}
-			},
-			"max_depth":
-			{
-				"type":"int",
-				"default":"",
-				"constraints":""
-			},
-			"min_samples_split":
-			{
-				"type":"int",
-				"default":"2",
-				"constraints":""
-			},
-			"min_samples_leaf":
-			{
-				"type":"int",
-				"default":"1",
-				"constraints":""
-			},
-			"bootstrap":
-			{
-				"type":"bool",
-				"default":"1",
-				"constraints":""
-			},
-			"oob_score":
-			{
-				"type":"bool",
-				"default":"0",
-				"constraints":""
-			},
-			"n_jobs":
-			{
-				"type":"int",
-				"default":"1",
-				"constraints":["-1","[1,$NCPU]"]
-			},
-			"random_state":
-			{
-				"type":"int",
-				"default":"",
-				"constraints":""
-			},
-			"verbose":
-			{
-				"type":"int",
-				"default":"0",
-				"constraints":""
-			}
-		},
-		"inputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		},
-		"outputs":
-		{
-			"datax":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"datay":
-			{
-				"fmt":["csv"],
-				"file":[[]]
-			},
-			"model":
-			{
-				"fmt":["pickle"],
-				"file":[[]]
-			}
-		}	
+		"mode":["generator","executor"]
 	},
-	"descriptions":
+	"hyperparameters":
 	{
-		"inputs/datax":"Input Training Data Features",
-		"inputs/datay":"Input Training Data Labels",
-		"outputs/datax":"Output Transformed Data Features",
-		"outputs/datay":"Output Predicted Labels",
-		"inputs/model":"Serialized Pre-trained Model Input for Warm-Start",
-		"outputs/model":"Serialized Trained Model Output by Generator"
+		"n_estimators":
+		{
+			"type":"int",
+			"default":"10",
+			"constraints":""
+		},
+		"criterion":
+		{
+			"type":"string",
+			"default":"gini",
+			"constraints":["gini","entropy"]
+		},
+		"max_features":
+		{
+			"type":["int","real","string"],
+			"default":"auto",
+			"constraints":
+			{
+				"int":"",
+				"real":"[0,1]",
+				"string":["auto","sqrt","log2",""]
+			}
+		},
+		"max_depth":
+		{
+			"type":"int",
+			"default":"",
+			"constraints":""
+		},
+		"min_samples_split":
+		{
+			"type":"int",
+			"default":"2",
+			"constraints":""
+		},
+		"min_samples_leaf":
+		{
+			"type":"int",
+			"default":"1",
+			"constraints":""
+		},
+		"bootstrap":
+		{
+			"type":"bool",
+			"default":"1",
+			"constraints":""
+		},
+		"oob_score":
+		{
+			"type":"bool",
+			"default":"0",
+			"constraints":""
+		},
+		"n_jobs":
+		{
+			"type":"int",
+			"default":"1",
+			"constraints":["-1",["[]","1","$NCPU"]]
+		},
+		"random_state":
+		{
+			"type":"int",
+			"default":"",
+			"constraints":""
+		},
+		"verbose":
+		{
+			"type":"int",
+			"default":"0",
+			"constraints":""
+		}
 	},
+	"inputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Input Training Data Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Pre-trained Model Input for Warm-Start"
+		}
+	},
+	"outputs":
+	{
+		"datax":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Transformed Data Features"
+		},
+		"datay":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Output Predicted Labels"
+		},
+		"model":
+		{
+			"fmt":["pickle"],
+			"file":"",
+			"description":"Serialized Trained Model Output by Generator"
+		}
+	},	
 	"transform functions":
 	{
 		"Simple Generator":
 		{
-			"system params":
+			"params":
 			{
-				"outputs":
-				{
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
-				},
 				"mode":"generator"
 			},
-			"description":"Generates a serialized KNN model from training data and labels"
+			"outputs":
+			{
+				"datax":
+				{
+					"fmt":[""],
+					"file":[""]
+				},
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
+				}
+			},
+			"description":"Generates a serialized RF model from training data and labels"
 		},
 		"Simple Executor":
 		{
-			"system params":
+			"params":
 			{
-				"mode":"executor",
-				"outputs":
+				"mode":"executor"
+			},
+			"outputs":
+			{
+				"model":
 				{
-					"model":
-					{
-						"fmt":[],
-						"file":""
-					},
-					"datax":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
 				},
-				"inputs":
+				"datax":
 				{
-					"datay":
-					{
-						"fmt":[],
-						"file":""
-					}
+					"fmt":[""],
+					"file":[""]
+				}
+			},
+			"inputs":
+			{
+				"datay":
+				{
+					"fmt":[""],
+					"file":[""]
 				}
 			},
 			"description":"Generates labels from a serialized model input and testing data"

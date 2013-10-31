@@ -1,6 +1,9 @@
 {
-	"module name":"sklearn.neighbors.KNeighborsClassifier",
-	"mode":"executor",
+	"params":
+	{
+		"module name":"sklearn.neighbors.KNeighborsClassifier",
+		"mode":"executor"
+	},
 	"hyperparameters":
 	{
 		"n_neighbors":

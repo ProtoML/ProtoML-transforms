@@ -20,6 +20,15 @@ def map_types(params):
 		if params[p]['value'] == "":
 			newparams[p] = None
 			continue
+		if type(params[p]['type']) == list:
+			for opt in params[p]['type']:
+				#Quick hack. Order your possible types in most-constrained to least constrained
+				try:
+					newparams[p] = type_map[opt](params[p]['value'])
+				except ValueError:
+					continue
+				break
+			continue
 		newparams[p] = type_map[params[p]['type']](params[p]['value'])
 
 	return newparams
@@ -48,7 +57,7 @@ class sklearn_transform_base:
 			sys.exit(self.error_dict['CouldNotParseSystemParams'])
 
 		params_file.close()
-		self.module_name = str(self.params['module name'])
+		self.module_name = str(self.params['params']['module name'])
 
 		relative_name = self.module_name.split('.')[-1] # Final module name, e.g. AffinityPropagation or KMeans
 
@@ -56,7 +65,7 @@ class sklearn_transform_base:
 		try:
 			mods = __import__(str('.'.join(self.module_name.split('.')[:-1])), globals(), locals(), [relative_name], -1)
 		except ImportError as ime:
-			print >> sys.stderr, "Could not import %s:" % self.params['module name'], ime
+			print >> sys.stderr, "Could not import %s:" % self.params['params']['module name'], ime
 			sys.exit(self.error_dict['IncorrectPackage'])
 
 		self.model_module = getattr(mods, relative_name)
@@ -231,17 +240,17 @@ class sklearn_transform_base:
 	def run(self):
 		self.read_hyperparams()
 		self.read_data()
-		if self.params['mode'] == 'executor':
+		if self.params['params']['mode'] == 'executor':
 			self.executor()
 			self.write_data()
-		elif self.params['mode'] == 'generator':
+		elif self.params['params']['mode'] == 'generator':
 			self.generator()
 			self.write_model()
 		self.cleanup()
 
 		
 if __name__ == "__main__": 
-	""" This is how this supposed to be run """
+	""" This is how this is supposed to be run """
 	params_file = sys.argv[1]
 	transform = sklearn_transform_base(params_file)
 	transform.run()

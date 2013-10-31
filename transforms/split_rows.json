@@ -1,0 +1,49 @@
+{
+	"name":"Split Rows",
+	"execution context":"transforms/process_transforms/split_byrows.py",
+	"dependencies":
+	{
+	},
+	"params":
+	{
+	},
+	"hyperparameters":
+	{
+		"split":
+		{
+			"type":["int","string"],
+			"default":"random",
+			"constraints":""
+		}
+	},
+	"inputs":
+	{
+		"data":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Data to be split"
+		}
+	},
+	"outputs":
+	{
+		"data1":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"First split of data"
+		},
+		"data2":
+		{
+			"fmt":["csv"],
+			"file":"",
+			"description":"Second split of data"
+		}
+	},
+	"functions":
+	{
+		"Simple Split":
+		{
+		}
+	}
+}
