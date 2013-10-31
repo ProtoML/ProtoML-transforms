@@ -1,33 +1,41 @@
 {
-	"name" : "Identity Transform",
-	"execution context" : "transforms/process_transforms/base_transform.py",
-	"dependencies":
+	"Template" : "Identity Transform",
+	"PrimaryExec" : "transforms/process_transforms/base_transform.py",
+	"Dependencies":
 	{
 	},
-	"params":
+	"PrimaryParameters":
 	{
 	},
-	"inputs":
+	"PrimaryInputs":
 	{
 		"data":
 		{
-			"fmt":[],
-			"file":[],
-			"description":"Data to process"
+			"Format":[],
+			"Path":[],
+			"Description":"Data to process"
 		}
 	},
-	"outputs":
+	"PrimaryOutputs":
 	{
 		"data":
 		{
-			"fmt":[],
-			"file":[],
-			"description":"Processed data"
+			"Format":[],
+			"Path":[],
+			"Description":"Processed data"
 		}
 	},	
-	"functions":
+	"PrimaryInputStates":
 	{
-		"Identity":{}
+	},
+	"PrimaryOutputStates":
+	{
+	},
+	"Functions":
+	{
+		"Identity":
+		{
+		}
 	}
 }
 

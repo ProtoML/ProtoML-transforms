@@ -1,46 +1,52 @@
 {
-	"name":"Split Rows",
-	"execution context":"transforms/process_transforms/split_byrows.py",
-	"dependencies":
+	"Template":"Split Rows",
+	"PrimaryExec":"ProtoML-transforms/transforms/process_transforms/split_byrows.py",
+	"Dependencies":
 	{
 	},
-	"params":
+	"PrimaryParameters":
 	{
 	},
-	"hyperparameters":
+	"PrimaryHyperParameters":
 	{
 		"split":
 		{
-			"type":["int","string"],
-			"default":"random",
-			"constraints":""
+			"Type":["int","string"],
+			"Default":"random",
+			"Constraints":""
 		}
 	},
-	"inputs":
+	"PrimaryInputs":
 	{
 		"data":
 		{
-			"fmt":["csv"],
-			"file":"",
-			"description":"Data to be split"
+			"Format":["csv"],
+			"Path":"",
+			"Description":"Data to be split"
 		}
 	},
-	"outputs":
+	"PrimaryOutputs":
 	{
 		"data1":
 		{
-			"fmt":["csv"],
-			"file":"",
-			"description":"First split of data"
+			"Format":["csv"],
+			"Path":"",
+			"Description":"First split of data"
 		},
 		"data2":
 		{
-			"fmt":["csv"],
-			"file":"",
-			"description":"Second split of data"
+			"Format":["csv"],
+			"Path":"",
+			"Description":"Second split of data"
 		}
 	},
-	"functions":
+	"PrimaryInputStates":
+	{
+	},
+	"PrimaryOutputStates":
+	{
+	},
+	"Functions":
 	{
 		"Simple Split":
 		{
