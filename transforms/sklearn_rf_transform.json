@@ -1,13 +1,18 @@
 {
 	"Template":"Scikit-Learn Random Forest Classifier Transform",
 	"PrimaryExec":"ProtoML-transforms/transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
-	"Dependencies":
-	{
-		"scikit-learn":
+	"Dependencies": [
 		{
-			"language":"python"
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		},
+		{
+			"Name":"scikit-learn",
+			"Description":"A machine learning toolkit in python",
+			"Source":"http://scikit-learn.org"
 		}
-	},
+	],	
 	"PrimaryParameters": {
 		"module name": {
 			"Default": "sklearn.ensemble.RandomForestClassifier",

@@ -1,9 +1,13 @@
 {
 	"Template":"Split Rows",
 	"PrimaryExec":"ProtoML-transforms/transforms/process_transforms/split_byrows.py",
-	"Dependencies":
-	{
-	},
+	"Dependencies": [
+		{
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		}	
+	],
 	"PrimaryParameters":
 	{
 	},

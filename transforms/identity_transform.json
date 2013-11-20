@@ -2,7 +2,13 @@
 	"Name": "Identity Transform",
 	"Documentation": "A transform to represent a generic identity function",
 	"PrimaryExec" : "transforms/process_transforms/base_transform.py",
-	"Dependencies":	[],
+	"Dependencies": [
+		{
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		}	
+	],
 	"PrimaryInputs": {
 		"data":	{
 			"Type":["any"],

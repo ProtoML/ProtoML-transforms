@@ -4,8 +4,14 @@
 	"PrimaryExec":"model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"Dependencies": [
 		{
-			"name":"scikit-learn",
-			"description":"A machine learning toolkit in python"
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		},
+		{
+			"Name":"scikit-learn",
+			"Description":"A machine learning toolkit in python",
+			"Source":"http://scikit-learn.org"
 		}
 	],
 	"PrimaryParameters": {
