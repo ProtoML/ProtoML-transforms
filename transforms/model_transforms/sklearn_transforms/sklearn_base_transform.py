@@ -6,6 +6,7 @@ import numpy as np
 import importlib
 
 # TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
+"""
 def map_types(params):
 	""" Takes a dict of params in the form i:{'value':'val','type':type} and maps them to i:value according to type """
 	type_map = {
@@ -32,7 +33,7 @@ def map_types(params):
 		newparams[p] = type_map[params[p]['Type']](params[p]['Value'])
 
 	return newparams
-
+"""
 class sklearn_transform_base:
 	def __init__(self, params_file_s):
 		""" Initializes the transform. Only takes a relative path to a JSON file that contains all of the system parameters """
@@ -79,16 +80,22 @@ class sklearn_transform_base:
 			print >> sys.stderr, "Could not decode hyperparameters:", vae
 			sys.exit(-1)
 		"""
-		self.hyperparams = map_types(self.params['HyperParameters'])
+		self.hyperparams = self.params['HyperParameters']
 	def read_data(self):
 		""" Reads input data file """
 		# We need to take the data and turn it into a numpy array
 		dataformatx = self.params['Inputs']['datax']['Format']
 		idatax_filen = self.params['Inputs']['datax']['Path']
-		dataformaty = self.params['Inputs']['datay']['Format']
-		idatay_filen = self.params['Inputs']['datay']['Path']
-		if idatay_filen == None:
-			self.idata = None
+
+		# Load labels, if training
+		try:
+			dataformaty = self.params['Inputs']['datay']['Format']
+			idatay_filen = self.params['Inputs']['datay']['Path']
+		except KeyError:
+			self.idatay = None
+			dataformaty = ''
+			idatay_filen = ''
+
 		if dataformatx == 'csv':
 			try:
 				#TODO: set dtype from parameters (perhaps inputs/data/type)
@@ -98,8 +105,8 @@ class sklearn_transform_base:
 				print >> sys.stderr, "Could not open dataset file:", ioe
 				sys.exit(-1)
 		
-		else if dataformatx != None:
-			print >> sys.stderr, "Unsupported data output format"
+		else:# if dataformatx != '':
+			print >> sys.stderr, "Unsupported X data input format"
 			sys.exit(-1)
 
 
@@ -110,17 +117,18 @@ class sklearn_transform_base:
 				print >> sys.stderr, "Could not open dataset file:", ioe
 				sys.exit(-1)
 
-		else if dataformaty != None:
-			print >> sys.stderr, "Unsupported data output format"
+		else if dataformaty != '':
+			print >> sys.stderr, "Unsupported y data input format"
 			sys.exit(-1)
 
 
 
 	def load_model(self):
 		""" Loads the model from the imodel field """
-		model_filen = self.params['Inputs']['model']['Path']
-		modelfmt = self.params['Inputs']['model']['Format']
-		if model_filen == '':
+		try:
+			model_filen = self.params['InputStates']['model']['Path']
+			modelfmt = self.params['InputStates']['model']['Format']
+		except KeyError:
 			return False
 		try:
 			imodelfile = open(model_filen, 'r')
@@ -134,7 +142,7 @@ class sklearn_transform_base:
 			except pickle.UnpicklingError as upe:
 				print >> sys.stderr, "Problem unpickling:", upe
 				sys.exit(-1)
-		else if modelfmt != None:
+		else:# if modelfmt != '':
 			print >> sys.stderr, "Unsupported model input format"
 			sys.exit(-1)
 
@@ -174,9 +182,10 @@ class sklearn_transform_base:
 	
 	def write_model(self):
 		""" Write the serialized model if one was generated """
-		omodel_filen = self.params['Outputs']['model']['Path']
-		modelfmt = self.params['Outputs']['model'['Format']
-		if omodel_filen == None:
+		try:
+			omodel_filen = self.params['OutputStates']['model']['Path']
+			modelfmt = self.params['OutputStates']['model']['Format']
+		except KeyError:
 			return False
 		try:
 			omodelfile = open(omodel_filen, 'w')
@@ -190,14 +199,20 @@ class sklearn_transform_base:
 			except pickle.PicklingError as pke:
 				print >> sys.stderr, "Could not pickle the model", pke
 				sys.exit(-1)
-		else if modelfmt != None:
+		else:# if modelfmt != '':
 			print >> sys.stderr, "Unsupported model output format"
 			sys.exit(-1)
 
 	def write_data(self):
 		""" Write the predictions, transformed data (if there is any) """
-		dataformatx = self.params['Outputs']['datax']['Format']
-		odatax_filen = self.params['Outputs']['datax']['Path']
+		try:
+			dataformatx = self.params['Outputs']['datax']['Format']
+			odatax_filen = self.params['Outputs']['datax']['Path']
+		except KeyError:
+			odatax = None
+			dataformatx = ''
+			odatax_filen = ''
+
 		dataformaty = self.params['Outputs']['datay']['Format']
 		odatay_filen = self.params['Outputs']['datay']['Path']
 
@@ -208,7 +223,7 @@ class sklearn_transform_base:
 				print >> sys.stderr, "Could not save transformed data file:", ioe
 				sys.exit(-1)	
 		
-		else if dataformatx != None:
+		else if dataformatx != '':
 			print >> sys.stderr, "Unsupported data output format"
 			sys.exit(-1)
 
@@ -220,7 +235,7 @@ class sklearn_transform_base:
 				print >> sys.stderr, "Could not save labels file:", ioe
 				sys.exit(-1)
 
-		else if dataformaty != None:
+		else:# if dataformaty != '':
 			print >> sys.stderr, "Unsupported data output format"
 			sys.exit(-1)
 
@@ -236,7 +251,7 @@ class sklearn_transform_base:
 		if self.params['Parameters']['mode'] == 'executor':
 			self.executor()
 			self.write_data()
-		elif self.params['Parameters']['mode'] == 'generator':
+		else if self.params['Parameters']['mode'] == 'generator':
 			self.generator()
 			self.write_model()
 		self.cleanup()

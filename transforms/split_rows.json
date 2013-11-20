@@ -20,8 +20,8 @@
 	{
 		"data":
 		{
+			"Type":[],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"Data to be split"
 		}
 	},
@@ -29,14 +29,14 @@
 	{
 		"data1":
 		{
+			"Type":[],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"First split of data"
 		},
 		"data2":
 		{
+			"Type":[],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"Second split of data"
 		}
 	},

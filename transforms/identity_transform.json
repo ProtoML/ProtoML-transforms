@@ -5,14 +5,14 @@
 	"Dependencies":	[],
 	"PrimaryInputs": {
 		"data":	{
-			"ValidTypes":["*"],
+			"Type":[],
 			"Format":[],
 			"Description":"Data to process"
 		}
 	},
 	"PrimaryOutputs": {
 		"data":	{
-			"ValidTypes":["*"],
+			"Type":[],
 			"Format":[],
 			"Description":"Processed data"
 		}

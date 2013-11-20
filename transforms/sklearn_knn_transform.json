@@ -12,6 +12,10 @@
 		"module name": {
 			"Default": "sklearn.neighbors.KNeighborsClassifier",
 			"Description": "The scikit-learn module to run"
+		},
+		"mode": {
+			"Default": "generator",
+			"Description": "The mode selection between generator and executor"
 		}
 	},
 	"PrimaryHyperParameters": {
@@ -48,16 +52,30 @@
 	},
 	"PrimaryInputs": {
 		"datax": {
-			"ValidTypes":["number"],
+			"Type":["number"],
 			"Format":["csv"],
-			"Description":"Input Data Features"
+			"Description":"Input Data Features",
+			"Optional": false
 		}
 	},
 	"PrimaryOutputs": {
 		"datay": {
-			"ValidTypes":["number"],
+			"Type":["number"],
 			"Format":["csv"],
 			"Description":"Output Predicted Labels"
+		}
+	},
+	"PrimaryInputStates": {
+		"model": {
+			"Format": ["pickle"],
+			"Description":"Warm start model",
+			"Optional": true
+		}
+	},
+	"PrimaryOutputStates": {
+		"model": {
+			"Format": ["pickle"],
+			"Description":"Output for serialized model"
 		}
 	},
 	"Functions": {
@@ -66,25 +84,27 @@
 			"Inputs": {		
 				"datay":
 				{
-					"ValidTypes":["number"],
+					"Type":["number"],
 					"Format":["csv"],
 					"Description":"Input Data Labels"
 				}
 			},
-			"PrimaryOutputStates": {
-				"model": {
-					"Format":["pickle"],
-					"Description":"Serialized Trained Model Output by Generator"
-				}
+			"Outputs": {
+				"datay": []
 			}
 		},
 		"Executor": {
+			"Parameters": {
+				"mode": "executor"
+			},
 			"Description":"Generates labels from a serialized model input and testing data",	
-			"PrimaryInputStates": {
+			"InputStates": {
 				"model": {
-					"Format":["pickle"],
-					"Description":"Serialized Pre-trained Model Input for Warm-Start"
+					"Optional": false
 				}
+			},
+			"OutputStates": {
+				"model": []
 			}
 		}
 	}
