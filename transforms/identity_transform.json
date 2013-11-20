@@ -5,15 +5,15 @@
 	"Dependencies":	[],
 	"PrimaryInputs": {
 		"data":	{
-			"Type":[],
-			"Format":[],
+			"Type":["any"],
+			"Format":["csv"],
 			"Description":"Data to process"
 		}
 	},
 	"PrimaryOutputs": {
 		"data":	{
-			"Type":[],
-			"Format":[],
+			"Type":["any"],
+			"Format":["csv"],
 			"Description":"Processed data"
 		}
 	},	
