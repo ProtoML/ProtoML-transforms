@@ -1,9 +1,13 @@
 {
 	"Template":"Split Rows",
 	"PrimaryExec":"ProtoML-transforms/transforms/process_transforms/split_byrows.py",
-	"Dependencies":
-	{
-	},
+	"Dependencies": [
+		{
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		}	
+	],
 	"PrimaryParameters":
 	{
 	},
@@ -20,8 +24,8 @@
 	{
 		"data":
 		{
+			"Type":["any"],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"Data to be split"
 		}
 	},
@@ -29,14 +33,14 @@
 	{
 		"data1":
 		{
+			"Type":["any"],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"First split of data"
 		},
 		"data2":
 		{
+			"Type":["any"],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"Second split of data"
 		}
 	},

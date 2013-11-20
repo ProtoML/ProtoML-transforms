@@ -22,10 +22,10 @@ class split_rowwise(process_transform_base):
 			sys.exit(-1)
 
 	def process_data(self):
-		if self.params['HyperParameters']['split']['Value'] == 'random':
+		if self.params['Parameters']['split'] == 'random':
 			split = random.randint(0,len(self.data)-1)
 		else:
-			split = int(self.params['HyperParameters']['split']['Value'])
+			split = self.params['Parameters']['split']
 			if split >= len(self.data):
 				print >> sys.stderr, "Split is too large"
 				sys.exit(-1)

@@ -1,17 +1,27 @@
 {
 	"Template":"Scikit-Learn SGD Classifier Transform",
 	"PrimaryExec":"ProtoML-transforms/transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
-	"Dependencies":
-	{
-		"scikit-learn":
+	"Dependencies": [
 		{
-			"language":"python"
+			"Name":"python",
+			"Description":"Dynamic programming language",
+			"Source":"http://python.org"
+		},
+		{
+			"Name":"scikit-learn",
+			"Description":"A machine learning toolkit in python",
+			"Source":"http://scikit-learn.org"
 		}
-	},
-	"PrimaryParameters":
-	{
-		"module name":["sklearn.linear_model.SGDClassifier"],
-		"mode":["generator","executor"]
+	],
+	"PrimaryParameters": {
+		"module name": {
+			"Default": "sklearn.linear_model.SGDClassifier",
+			"Description": "The scikit-learn module to run"
+		},
+		"mode": {
+			"Default": "generator",
+			"Description": "The mode selection between generator and executor"
+		}
 	},
 	"PrimaryHyperParameters":
 	{
@@ -111,105 +121,66 @@
 	{
 		"datax":
 		{
+			"Type":["number"],
 			"Format":["csv"],
-			"Path":"",
 			"Description":"Input Training Data Features"
-		},
-		"datay":
-		{
-			"Format":["csv"],
-			"Path":"",
-			"Description":"Input Training Data Labels"
-		}	
-	},
-	"PrimaryOutputs":
-	{
-		"datax":
-		{
-			"Format":["csv"],
-			"Path":"",
-			"Description":"Output Transformed Data Features"
-		},
-		"datay":
-		{
-			"Format":["csv"],
-			"Path":"",
-			"Description":"Output Predicted Labels"
 		}
 	},
+	"PrimaryOutputs":
+	{	
+		"datay":
+		{
+			"Type":["number"],
+			"Format":["csv"],
+			"Description":"Output Predicted Labels"
+		}
+	},	
 	"PrimaryInputStates":
 	{
 		"model":
 		{
 			"Format":["pickle"],
-			"file":"",
-			"description":"Serialized Pre-trained Model Input for Warm-Start"
+			"Description":"Serialized Pre-trained Model Input for Warm-Start",
+			"Optional": true
 		}
-	}
+	},
 	"PrimaryOutputStates":
 	{
 		"model":
 		{
 			"Format":["pickle"],
-			"Path":"",
 			"Description":"Serialized Trained Model Output by Generator"
 		}
 	},
-	"Functions":
-	{
-		"Simple Generator":
-		{
-			"Params":
-			{
-				"mode":["generator"]
-			},
-			"Outputs":
-			{
-				"datax":
-				{
-					"Format":[""],
-					"Path":[""]
-				},
+	"Functions": {
+		"Generator": {
+			"Description":"Generates a serialized KNN model from training data and labels",
+			"Inputs": {		
 				"datay":
 				{
-					"Format":[""],
-					"Path":[""]
+					"Type":["number"],
+					"Format":["csv"],
+					"Description":"Input Data Labels"
 				}
 			},
-			"Description":"Generates a serialized KNN model from training data and labels"
-		},
-		"Simple Executor":
-		{
-			"Parameters":
-			{
-				"mode":["executor"]
-			},
-			"Outputs":
-			{
-				"datax":
-				{
-					"Format":[""],
-					"Path":[""]
-				}
-			},
-			"Inputs":
-			{
-				"datay":
-				{
-					"Format":[""],
-					"Path":[""]
-				}
-			},
-			"OutputStates":
-			{
-				"model":
-				{
-					"Format":[""],
-					"Path":[""]
-				}
+			"Outputs": {
+				"datay": []
 			}
-			"Description":"Generates labels from a serialized model input and testing data"
+		},
+		"Executor": {
+			"Parameters": {
+				"mode": "executor"
+			},
+			"Description":"Generates labels from a serialized model input and testing data",	
+			"InputStates": {
+				"model": {
+					"Optional": false
+				}
+			},
+			"OutputStates": {
+				"model": []
+			}
 		}
-	}
+	}	
 }
 
