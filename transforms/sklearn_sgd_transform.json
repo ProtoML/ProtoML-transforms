@@ -47,7 +47,7 @@
 		{
 			"Type":["real"],
 			"Default":"0.15",
-			"Constraints":[["[]",0,1]]
+			"Constraints":[["[]","0","1"]]
 		},
 		"fit_intercept":
 		{
@@ -113,7 +113,7 @@
 		{
 			"Type":["bool"],
 			"Default":"false",
-			"Constraints":["=","false"]
+			"Constraints":[["=","false"]]
 		}
 	},
 	"PrimaryInputs":
@@ -163,12 +163,17 @@
 				}
 			},
 			"Outputs": {
-				"datay": []
+				"datay": {
+					"Format": []
+				}
 			}
 		},
 		"Executor": {
 			"Parameters": {
-				"mode": "executor"
+				"mode": {
+					"Default": "executor",
+					"Description":"Executes serialized model on data"
+				}
 			},
 			"Description":"Generates labels from a serialized model input and testing data",	
 			"InputStates": {
@@ -177,7 +182,9 @@
 				}
 			},
 			"OutputStates": {
-				"model": []
+				"model": {
+					"Format": []
+				}
 			}
 		}
 	}	

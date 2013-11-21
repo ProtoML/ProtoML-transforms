@@ -17,7 +17,7 @@
 		{
 			"Type":["int","string"],
 			"Default":"random",
-			"Constraints":""
+			"Constraints":[]
 		}
 	},
 	"PrimaryInputs":
@@ -54,6 +54,7 @@
 	{
 		"Simple Split":
 		{
+			"Description":"Splits rows by a given number"
 		}
 	}
 }

@@ -35,7 +35,7 @@
 		{
 			"Type":["string"],
 			"Default":"gini",
-			"Constraints":[["=","gini","entropy"]
+			"Constraints":[["=","gini","entropy"]]
 		},
 		"max_features":
 		{
@@ -139,12 +139,17 @@
 				}
 			},
 			"Outputs": {
-				"datay": []
+				"datay": {
+					"Format": []
+				}
 			}
 		},
 		"Executor": {
 			"Parameters": {
-				"mode": "executor"
+				"mode": {
+					"Default": "executor",
+					"Description":"Executes serialized model on data"
+				}
 			},
 			"Description":"Generates labels from a serialized model input and testing data",	
 			"InputStates": {
@@ -153,7 +158,9 @@
 				}
 			},
 			"OutputStates": {
-				"model": []
+				"model": {
+					"Format": []
+				}
 			}
 		}
 	}	
