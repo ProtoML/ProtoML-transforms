@@ -27,69 +27,69 @@
 	{
 		"n_estimators":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"10",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"criterion":
 		{
-			"Type":"string",
+			"Type":["string"],
 			"Default":"gini",
-			"Constraints":["gini","entropy"]
+			"Constraints":[["=","gini","entropy"]]
 		},
 		"max_features":
 		{
 			"Type":["int","real","string"],
 			"Default":"auto",
-			"Constraints":[[":int","=","max_features",""],[":real","[]","0","1"],[":string","=","max_features","auto","sqrt","log2",""]]
+			"Constraints":[["[]","0","1"],["=","auto","sqrt","log2",""]]
 		},
 		"max_depth":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"min_samples_split":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"2",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"min_samples_leaf":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"1",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"bootstrap":
 		{
-			"Type":"bool",
-			"Default":"1",
-			"Constraints":""
+			"Type":["bool"],
+			"Default":"true",
+			"Constraints":[]
 		},
 		"oob_score":
 		{
-			"Type":"bool",
-			"Default":"0",
-			"Constraints":""
+			"Type":["bool"],
+			"Default":"false",
+			"Constraints":[]
 		},
 		"n_jobs":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"1",
-			"Constraints":[["=","n_jobs","-1"],["[]","1","$NCPU"]]
+			"Constraints":[["=","-1"],["[]","1","$NCPU"]]
 		},
 		"random_state":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"verbose":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"0",
-			"Constraints":""
+			"Constraints":[]
 		}
 	},
 	"PrimaryInputs":
@@ -139,21 +139,28 @@
 				}
 			},
 			"Outputs": {
-				"datay": []
+				"datay": {
+					"Format": []
+				}
 			}
 		},
 		"Executor": {
 			"Parameters": {
-				"mode": "executor"
+				"mode": {
+					"Default": "executor",
+					"Description":"Executes serialized model on data"
+				}
 			},
 			"Description":"Generates labels from a serialized model input and testing data",	
 			"InputStates": {
 				"model": {
-					"Optional": false
+					"Optional":"false"
 				}
 			},
 			"OutputStates": {
-				"model": []
+				"model": {
+					"Format": []
+				}
 			}
 		}
 	}	

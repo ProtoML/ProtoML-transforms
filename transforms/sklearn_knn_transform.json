@@ -61,7 +61,7 @@
 			"Type":["number"],
 			"Format":["csv"],
 			"Description":"Input Data Features",
-			"Optional": false
+			"Optional":"false"
 		}
 	},
 	"PrimaryOutputs": {
@@ -75,7 +75,7 @@
 		"model": {
 			"Format": ["pickle"],
 			"Description":"Warm start model",
-			"Optional": true
+			"Optional":"true"
 		}
 	},
 	"PrimaryOutputStates": {
@@ -96,21 +96,28 @@
 				}
 			},
 			"Outputs": {
-				"datay": []
+				"datay": {
+					"Format": []
+				}
 			}
 		},
 		"Executor": {
 			"Parameters": {
-				"mode": "executor"
+				"mode": {
+					"Default": "executor",
+					"Description":"Executes serialized model on data"
+				}
 			},
 			"Description":"Generates labels from a serialized model input and testing data",	
 			"InputStates": {
 				"model": {
-					"Optional": false
+					"Optional":"false"
 				}
 			},
 			"OutputStates": {
-				"model": []
+				"model": {
+					"Format": []
+				}
 			}
 		}
 	}

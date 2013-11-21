@@ -27,94 +27,93 @@
 	{
 		"loss":
 		{
-			"Type":"string",
+			"Type":["string"],
 			"Default":"hinge",
-			"Constraints":[["=","loss","log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]]
+			"Constraints":[["=","log","hinge","modified_huber","squared_hinge","perceptron","squared_loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]]
 		},
 		"penalty":
 		{
-			"Type":"string",
+			"Type":["string"],
 			"Default":"l2",
-			"Constraints":[["=","penalty","l2","l1","elasticnet"]]
+			"Constraints":[["=","l2","l1","elasticnet"]]
 		},
 		"alpha":
 		{
-			"Type":"real",
+			"Type":["real"],
 			"Default":"0.0001",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"l1_ratio":
 		{
-			"Type":"real",
+			"Type":["real"],
 			"Default":"0.15",
 			"Constraints":[["[]","0","1"]]
 		},
 		"fit_intercept":
 		{
-			"Type":"bool",
-			"Default":"1",
-			"Constraints":""
+			"Type":["bool"],
+			"Default":"true",
+			"Constraints":[]
 		},
 		"n_iter":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"5",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"shuffle":
 		{
-			"Type":"bool",
-			"Default":"0",
-			"Constraints":""
+			"Type":["bool"],
+			"Default":"false",
+			"Constraints":[]
 		},
 		"random_state":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"epsilon":
 		{
-			"Type":"real",
+			"Type":["real"],
 			"Default":"0.1",
-			"Constraints":[["=","loss","huber","epsilon_insensitive","squared_epsilon_insensitive"]],
-			"_comment":"Example of dependent Constraints: will check to ensure that loss' value is in there"
+			"Constraints":[["=","huber","epsilon_insensitive","squared_epsilon_insensitive"]]
 		},
 		"n_jobs":
 		{
-			"Type":"int",
+			"Type":["int"],
 			"Default":"1",
-			"Constraints":[["=","n_jobs","-1"],["[]","1","$NCPU"]]
+			"Constraints":[["=","-1"],["[]","1","$NCPU"]]
 		},
 		"learning_rate":
 		{
-			"Type":"string",
+			"Type":["string"],
 			"Default":"optimal",
-			"Constraints":[["=","learning_rate","constant","optimal","invscaling"]]
+			"Constraints":[["=","constant","optimal","invscaling"]]
 		},
 		"eta0":
 		{
-			"Type":"real",
+			"Type":["real"],
 			"Default":"0.01",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"power_t":
 		{
-			"Type":"real",
+			"Type":["real"],
 			"Default":"0.5",
-			"Constraints":""
+			"Constraints":[]
 		},
 		"class_weight":
 		{
-			"Type":"string",
+			"Type":["string"],
 			"Default":"",
-			"Constraints":[["=","class_weight","","auto"]]
+			"Constraints":[["=","","auto"]]
 		},
 		"warm_start":
 		{
-			"Type":"bool",
-			"Default":"0",
-			"Constraints":["=","warm_start","0"]
+			"Type":["bool"],
+			"Default":"false",
+			"Constraints":[["=","false"]]
 		}
 	},
 	"PrimaryInputs":
@@ -141,7 +140,7 @@
 		{
 			"Format":["pickle"],
 			"Description":"Serialized Pre-trained Model Input for Warm-Start",
-			"Optional": true
+			"Optional":"true"
 		}
 	},
 	"PrimaryOutputStates":
@@ -164,21 +163,28 @@
 				}
 			},
 			"Outputs": {
-				"datay": []
+				"datay": {
+					"Format": []
+				}
 			}
 		},
 		"Executor": {
 			"Parameters": {
-				"mode": "executor"
+				"mode": {
+					"Default": "executor",
+					"Description":"Executes serialized model on data"
+				}
 			},
 			"Description":"Generates labels from a serialized model input and testing data",	
 			"InputStates": {
 				"model": {
-					"Optional": false
+					"Optional":"false"
 				}
 			},
 			"OutputStates": {
-				"model": []
+				"model": {
+					"Format": []
+				}
 			}
 		}
 	}	
