@@ -8,6 +8,25 @@ import os
 import sys
 import shutil
 
+# TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
+def map_types(params):
+	""" Takes a dict of params in the form i:{'value':'val','type':type} and maps them to i:value according to type """
+	type_map = {
+			'int':int,
+			'real':float,
+			'string':str,
+			'bool':bool
+	}
+	newparams = dict()
+
+	for p in params:
+		if params[p]['Value'] == "":
+			newparams[p] = None
+			continue
+		newparams[p] = type_map[params[p]['Type']](params[p]['Value']) # assume that this works because the validator should've checked it
+	
+	return newparams
+
 class process_transform_base:	
 	def __init__(self, params_file_s):	
 		try:
@@ -34,6 +53,8 @@ class process_transform_base:
 		except IOError as ioe:
 			print >> sys.stderr, "Could not open output file", ioe
 			sys.exit(-1)
+
+		self.hyperparameters = map_types(self.params['HyperParameters'])
 
 	def read_data(self):	
 		""" Reads input. Base version just stores file"""
