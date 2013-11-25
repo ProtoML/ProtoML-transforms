@@ -1,5 +1,5 @@
 {
-	"Template":"Scikit-Learn SGD Classifier Transform",
+	"Name":"Scikit-Learn SGD Classifier Transform",
 	"PrimaryExec":"ProtoML-transforms/transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"Dependencies": [
 		{
@@ -83,7 +83,7 @@
 		{
 			"Type":["int"],
 			"Default":"1",
-			"Constraints":[["=","-1"],["[]","1","$NCPU"]]
+			"Constraints":[["=","-1"],["[]","1","4"]]
 		},
 		"learning_rate":
 		{
