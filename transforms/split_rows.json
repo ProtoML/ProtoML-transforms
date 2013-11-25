@@ -1,5 +1,5 @@
 {
-	"Template":"Split Rows",
+	"Name":"Split Rows",
 	"PrimaryExec":"ProtoML-transforms/transforms/process_transforms/split_byrows.py",
 	"Dependencies": [
 		{

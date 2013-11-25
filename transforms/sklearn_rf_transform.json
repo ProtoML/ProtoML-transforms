@@ -1,5 +1,5 @@
 {
-	"Template":"Scikit-Learn Random Forest Classifier Transform",
+	"Name":"Scikit-Learn Random Forest Classifier Transform",
 	"PrimaryExec":"ProtoML-transforms/transforms/model_transforms/sklearn_transforms/sklearn_base_transform.py",
 	"Dependencies": [
 		{
@@ -77,7 +77,7 @@
 		{
 			"Type":["int"],
 			"Default":"1",
-			"Constraints":[["=","-1"],["[]","1","$NCPU"]]
+			"Constraints":[["=","-1"],["[]","1","4"]]
 		},
 		"random_state":
 		{
