@@ -4,7 +4,26 @@ import json
 import sys
 import os
 from base_transform import process_transform_base
- 
+
+# TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
+def map_types(params):
+	""" Takes a dict of params in the form i:{'value':'val','type':type} and maps them to i:value according to type """
+	type_map = {
+			'int':int,
+			'real':float,
+			'string':str,
+			'bool':bool
+	}
+	newparams = dict()
+
+	for p in params:
+		if params[p]['Value'] == "":
+			newparams[p] = None
+			continue
+		newparams[p] = type_map[params[p]['Type']](params[p]['Value']) # assume that this works because the validator should've checked it
+	
+	return newparams
+
 class split_rowwise(process_transform_base):
 	def read_data(self):
 		infmt = self.params['Inputs']['data']['Format']
@@ -22,10 +41,10 @@ class split_rowwise(process_transform_base):
 			sys.exit(-1)
 
 	def process_data(self):
-		if self.params['Parameters']['split'] == 'random':
+		if self.hyperparameters['split'] == 'random':
 			split = random.randint(0,len(self.data)-1)
 		else:
-			split = self.params['Parameters']['split']
+			split = self.hyperparameters['split']
 			if split >= len(self.data):
 				print >> sys.stderr, "Split is too large"
 				sys.exit(-1)

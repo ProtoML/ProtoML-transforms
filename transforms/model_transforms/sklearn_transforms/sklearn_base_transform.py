@@ -6,12 +6,11 @@ import numpy as np
 import importlib
 
 # TODO: PUT THIS SOMEWHERE ELSE, Extend it for more primitives
-"""
 def map_types(params):
 	""" Takes a dict of params in the form i:{'value':'val','type':type} and maps them to i:value according to type """
 	type_map = {
 			'int':int,
-			'float':float,
+			'real':float,
 			'string':str,
 			'bool':bool
 	}
@@ -21,19 +20,10 @@ def map_types(params):
 		if params[p]['Value'] == "":
 			newparams[p] = None
 			continue
-		if type(params[p]['Type']) == list:
-			for opt in params[p]['Type']:
-				#Quick hack. Order your possible types in most-constrained to least constrained
-				try:
-					newparams[p] = type_map[opt](params[p]['Value'])
-				except ValueError:
-					continue
-				break
-			continue
-		newparams[p] = type_map[params[p]['Type']](params[p]['Value'])
-
+		newparams[p] = type_map[params[p]['Type']](params[p]['Value']) # assume that this works because the validator should've checked it
+	
 	return newparams
-"""
+
 class sklearn_transform_base:
 	def __init__(self, params_file_s):
 		""" Initializes the transform. Only takes a relative path to a JSON file that contains all of the system parameters """
@@ -80,7 +70,7 @@ class sklearn_transform_base:
 			print >> sys.stderr, "Could not decode hyperparameters:", vae
 			sys.exit(-1)
 		"""
-		self.hyperparams = self.params['HyperParameters']
+		self.hyperparams = map_types(self.params['HyperParameters'])
 	def read_data(self):
 		""" Reads input data file """
 		# We need to take the data and turn it into a numpy array
